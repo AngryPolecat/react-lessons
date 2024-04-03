@@ -1,0 +1,72 @@
+.app {
+  text-align: center;
+}
+
+.container {
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto;
+  border: 2px solid white;
+  padding: 5px;
+}
+
+.header {
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.display {
+  height: 50px;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: right;
+  font-size: 40px;
+  background-color: black;
+  margin-bottom: 20px;
+}
+
+.containerButtons {
+  display: flex;
+}
+
+.containerNumberButtons,
+.containerOperatorButtons {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.containerNumberButtons {
+  width: 70%;
+}
+
+.containerOperatorButtons {
+  width: 30%;
+}
+
+.numbers,
+.operators {
+  width: 85px;
+  height: 85px;
+  border: 1px solid white;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  line-height: 85px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.operators.disabled {
+  background: grey;
+  cursor: not-allowed;
+}
+
+.display.result {
+  color: hsl(202, 100%, 68%);
+}
