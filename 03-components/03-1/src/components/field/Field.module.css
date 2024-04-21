@@ -1,0 +1,24 @@
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.cell {
+  width: 200px;
+  height: 200px;
+  border: 1px solid white;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  line-height: 200px;
+  font-size: 150px;
+  cursor: pointer;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
