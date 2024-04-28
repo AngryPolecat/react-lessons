@@ -1,0 +1,32 @@
+form {
+  border: 0px solid white;
+}
+
+.ordinary {
+  display: block;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ordinary.error {
+  background-color: lightcoral;
+  border: 1px solid red;
+  color: darkred;
+}
+
+header {
+  font-size: 20px;
+  text-align: left;
+  margin: 20px 0;
+}
+
+button {
+  display: block;
+  padding: 10px;
+  font-size: 17px;
+  float: right;
+  margin-right: 0;
+}
