@@ -7,6 +7,8 @@ const initialState = {
   rePassword: { text: '', error: false },
 };
 
+const MIN_LENGTH_FIELD = 6;
+
 const useStore = () => {
   const [state, setState] = useState(initialState);
 
@@ -16,7 +18,10 @@ const useStore = () => {
       setState({ ...state, [field]: { text: value, error } }),
     getError: () =>
       Object.values(state).some(
-        (item) => item.error === true || !item.text.length
+        (item) =>
+          item.error === true ||
+          !item.text.length ||
+          item.text.length < MIN_LENGTH_FIELD
       ),
   };
 };
@@ -26,30 +31,28 @@ export const Form = ({ onShowMessage }) => {
   const { email, password, rePassword } = getState();
   const submitButtonRef = useRef(null);
 
+  // if (!getError()) {
+  //   submitButtonRef.current.focus();
+  // }
+
   const handledSubmit = (event) => {
     event.preventDefault();
     console.log(email.text, password.text, rePassword.text);
   };
 
-  const handlerRePasswordBlur = ({ target }) => {
+  const handlerPasswordsBlur = ({ target }) => {
     const { name, value } = target;
     let error = null;
-    if (value.length && value.length < 6) {
+    if (value && value.length < MIN_LENGTH_FIELD) {
       error = `Пароль не может быть меньше 6 символов`;
     } else {
-      if (password.text.length === value.length && password.text !== value) {
+      if (
+        password.text.length &&
+        rePassword.text.length &&
+        password.text !== rePassword.text
+      ) {
         error = 'Пароли не совпадают';
       }
-    }
-    onShowMessage(error);
-    updateState(name, value, !!error);
-  };
-
-  const handlerPasswordBlur = ({ target }) => {
-    const { name, value } = target;
-    let error = null;
-    if (value.length && value.length < 6) {
-      error = `Пароль не может быть меньше 6 символов`;
     }
     onShowMessage(error);
     updateState(name, value, !!error);
@@ -63,18 +66,20 @@ export const Form = ({ onShowMessage }) => {
     } else {
       if (value.length > 30) {
         error = `Не более 30 символов`;
+      } else {
       }
-    }
-    if (
-      name === 'rePassword' &&
-      !getError() &&
-      value.length >= 6 &&
-      value === password.text
-    ) {
-      submitButtonRef.current.focus();
     }
     onShowMessage(error);
     updateState(name, value, !!error);
+    if (
+      !error &&
+      name === 'rePassword' &&
+      password.text === value &&
+      value.length >= MIN_LENGTH_FIELD
+    ) {
+      console.log(true);
+      submitButtonRef.current.focus();
+    }
   };
 
   return (
@@ -95,7 +100,7 @@ export const Form = ({ onShowMessage }) => {
           name="password"
           placeholder="Пароль"
           value={password.text}
-          onBlur={handlerPasswordBlur}
+          onBlur={handlerPasswordsBlur}
           onChange={handledChangeInformation}
         />
         <input
@@ -107,7 +112,7 @@ export const Form = ({ onShowMessage }) => {
           placeholder="Повторите пароль"
           value={rePassword.text}
           onChange={handledChangeInformation}
-          onBlur={handlerRePasswordBlur}
+          onBlur={handlerPasswordsBlur}
         />
         <button
           type="submit"
