@@ -1,5 +1,28 @@
-import { useRef, useState } from 'react';
+import * as yup from 'yup';
 import styles from './Form.module.css';
+import { useState } from 'react';
+
+const dataChangeScheme = yup
+  .string()
+  .matches(
+    /^[\w_@.]*$/,
+    'Допустимые символы цифры, буквы, знак подчеркивания, знак @ и точка'
+  )
+  .max(30, 'Допустимая длина 30 символов');
+
+const passwordsBlurScheme = yup
+  .string()
+  .min(6, 'Пароль не может быть меньше 6 символов');
+
+const validateData = (scheme, value) => {
+  let error = null;
+  try {
+    scheme.validateSync(value, { abortEarly: false });
+  } catch ({ errors }) {
+    error = errors.join('\n');
+  }
+  return error;
+};
 
 const initialState = {
   email: { text: '', error: false },
@@ -29,57 +52,36 @@ const useStore = () => {
 export const Form = ({ onShowMessage }) => {
   const { getState, updateState, getError } = useStore();
   const { email, password, rePassword } = getState();
-  const submitButtonRef = useRef(null);
-
-  // if (!getError()) {
-  //   submitButtonRef.current.focus();
-  // }
 
   const handledSubmit = (event) => {
     event.preventDefault();
     console.log(email.text, password.text, rePassword.text);
   };
 
-  const handlerPasswordsBlur = ({ target }) => {
+  const handlerChangeData = ({ target }) => {
     const { name, value } = target;
-    let error = null;
-    if (value && value.length < MIN_LENGTH_FIELD) {
-      error = `Пароль не может быть меньше 6 символов`;
-    } else {
-      if (
-        password.text.length &&
-        rePassword.text.length &&
-        password.text !== rePassword.text
-      ) {
-        error = 'Пароли не совпадают';
-      }
-    }
-    onShowMessage(error);
+    const error = validateData(dataChangeScheme, value);
     updateState(name, value, !!error);
+    onShowMessage(error);
   };
 
-  const handledChangeInformation = ({ target }) => {
+  const handlerBlurData = ({ target }) => {
     const { name, value } = target;
     let error = null;
-    if (!/^[\w_@.]*$/.test(value)) {
-      error = `Разрешенные символы: цифры, латинские буквы, знак @ и точка`;
-    } else {
-      if (value.length > 30) {
-        error = `Не более 30 символов`;
-      } else {
+    if (value.length) {
+      error = validateData(passwordsBlurScheme, value);
+      if (!error) {
+        if (
+          password.text.length &&
+          rePassword.text.length &&
+          password.text !== rePassword.text
+        ) {
+          error = 'Пароли не совпадают';
+        }
       }
     }
     onShowMessage(error);
     updateState(name, value, !!error);
-    if (
-      !error &&
-      name === 'rePassword' &&
-      password.text === value &&
-      value.length >= MIN_LENGTH_FIELD
-    ) {
-      console.log(true);
-      submitButtonRef.current.focus();
-    }
   };
 
   return (
@@ -92,7 +94,7 @@ export const Form = ({ onShowMessage }) => {
           type="email"
           placeholder="E-mail"
           value={email.text}
-          onChange={handledChangeInformation}
+          onChange={handlerChangeData}
         />
         <input
           className={`${styles.ordinary} ${password.error ? styles.error : ''}`}
@@ -100,8 +102,8 @@ export const Form = ({ onShowMessage }) => {
           name="password"
           placeholder="Пароль"
           value={password.text}
-          onBlur={handlerPasswordsBlur}
-          onChange={handledChangeInformation}
+          onChange={handlerChangeData}
+          onBlur={handlerBlurData}
         />
         <input
           className={`${styles.ordinary} ${
@@ -111,14 +113,10 @@ export const Form = ({ onShowMessage }) => {
           name="rePassword"
           placeholder="Повторите пароль"
           value={rePassword.text}
-          onChange={handledChangeInformation}
-          onBlur={handlerPasswordsBlur}
+          onChange={handlerChangeData}
+          onBlur={handlerBlurData}
         />
-        <button
-          type="submit"
-          ref={submitButtonRef}
-          disabled={getError() ? true : false}
-        >
+        <button type="submit" disabled={getError() ? true : false}>
           Зарегистрироваться
         </button>
       </form>
