@@ -53,7 +53,7 @@ export const Form = ({ onShowMessage }) => {
   const { getState, updateState, getError } = useStore();
   const { email, password, rePassword } = getState();
 
-  const handledSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
     console.log(email.text, password.text, rePassword.text);
   };
@@ -87,7 +87,7 @@ export const Form = ({ onShowMessage }) => {
   return (
     <>
       <header>Регистрация</header>
-      <form onSubmit={handledSubmit}>
+      <form onSubmit={handlerSubmit}>
         <input
           className={`${styles.ordinary} ${email.error ? styles.error : ''}`}
           name="email"

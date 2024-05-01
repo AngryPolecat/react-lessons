@@ -9,7 +9,7 @@
   opacity: 1;
   border: 1px solid red;
   border-radius: 8px;
-  background-color: lightcoral;
+  background-color: rgb(97, 0, 0);
 }
 
 .message.hidden {

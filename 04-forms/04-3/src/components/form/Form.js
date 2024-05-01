@@ -1,122 +1,94 @@
 import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './Form.module.css';
-import { useState } from 'react';
 
-const dataChangeScheme = yup
-  .string()
-  .matches(
-    /^[\w_@.]*$/,
-    'Допустимые символы цифры, буквы, знак подчеркивания, знак @ и точка'
-  )
-  .max(30, 'Допустимая длина 30 символов');
-
-const passwordsBlurScheme = yup
-  .string()
-  .min(6, 'Пароль не может быть меньше 6 символов');
-
-const validateData = (scheme, value) => {
-  let error = null;
-  try {
-    scheme.validateSync(value, { abortEarly: false });
-  } catch ({ errors }) {
-    error = errors.join('\n');
-  }
-  return error;
+const sendFormData = (formData) => {
+  console.log(formData);
 };
 
-const initialState = {
-  email: { text: '', error: false },
-  password: { text: '', error: false },
-  rePassword: { text: '', error: false },
-};
+const fieldsSchema = yup.object().shape({
+  email: yup
+    .string()
+    .matches(
+      /^[\w_@.]*$/,
+      'Допустимые символы цифры, буквы, знак подчеркивания, знак @ и точка'
+    )
+    .max(30, 'Допустимая длина 30 символов')
+    .min(6, 'E-mail не может быть меньше 6 символов'),
+  password: yup
+    .string()
+    .matches(/^[\w]*$/, 'Допустимые символы цифры и буквы')
+    .max(20, 'Допустимая длина 20 символов')
+    .min(6, 'Пароль не может быть меньше 6 символов'),
+  rePassword: yup
+    .string()
+    .matches(/^[\w]*$/, 'Допустимые символы цифры и буквы')
+    .max(20, 'Допустимая длина 20 символов')
+    .min(6, 'Пароль (повтор) не может быть меньше 6 символов')
+    .oneOf([yup.ref('password')], 'Пароли не совпадают'),
+});
 
-const MIN_LENGTH_FIELD = 6;
+export const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      login: '',
+    },
+    resolver: yupResolver(fieldsSchema),
+  });
 
-const useStore = () => {
-  const [state, setState] = useState(initialState);
-
-  return {
-    getState: () => state,
-    updateState: (field, value, error) =>
-      setState({ ...state, [field]: { text: value, error } }),
-    getError: () =>
-      Object.values(state).some(
-        (item) =>
-          item.error === true ||
-          !item.text.length ||
-          item.text.length < MIN_LENGTH_FIELD
-      ),
+  const errorState = {
+    email: errors.email?.message,
+    password: errors.password?.message,
+    rePassword: errors.rePassword?.message,
   };
-};
 
-export const Form = ({ onShowMessage }) => {
-  const { getState, updateState, getError } = useStore();
-  const { email, password, rePassword } = getState();
-
-  const handledSubmit = (event) => {
-    event.preventDefault();
-    console.log(email.text, password.text, rePassword.text);
-  };
-
-  const handlerChangeData = ({ target }) => {
-    const { name, value } = target;
-    const error = validateData(dataChangeScheme, value);
-    updateState(name, value, !!error);
-    onShowMessage(error);
-  };
-
-  const handlerBlurData = ({ target }) => {
-    const { name, value } = target;
-    let error = null;
-    if (value.length) {
-      error = validateData(passwordsBlurScheme, value);
-      if (!error) {
-        if (
-          password.text.length &&
-          rePassword.text.length &&
-          password.text !== rePassword.text
-        ) {
-          error = 'Пароли не совпадают';
-        }
-      }
-    }
-    onShowMessage(error);
-    updateState(name, value, !!error);
-  };
+  const error = Object.values(errorState).some((item) => !!item);
+  const message = Object.values(errorState)
+    .filter((item) => item != null)
+    .join('\n');
 
   return (
     <>
       <header>Регистрация</header>
-      <form onSubmit={handledSubmit}>
+      {error && (
+        <div className={`${styles.message} ${!error ? styles.hidden : ''}`}>
+          {message}
+        </div>
+      )}
+      <form onSubmit={handleSubmit(sendFormData)}>
         <input
-          className={`${styles.ordinary} ${email.error ? styles.error : ''}`}
+          className={`${styles.ordinary} ${
+            errorState.email ? styles.error : ''
+          }`}
           name="email"
           type="email"
           placeholder="E-mail"
-          value={email.text}
-          onChange={handlerChangeData}
-        />
-        <input
-          className={`${styles.ordinary} ${password.error ? styles.error : ''}`}
-          type="password"
-          name="password"
-          placeholder="Пароль"
-          value={password.text}
-          onChange={handlerChangeData}
-          onBlur={handlerBlurData}
+          {...register('email')}
         />
         <input
           className={`${styles.ordinary} ${
-            rePassword.error ? styles.error : ''
+            errorState.password ? styles.error : ''
+          }`}
+          type="password"
+          name="password"
+          placeholder="Пароль"
+          {...register('password')}
+        />
+        <input
+          className={`${styles.ordinary} ${
+            errorState.rePassword ? styles.error : ''
           }`}
           type="password"
           name="rePassword"
           placeholder="Повторите пароль"
-          value={rePassword.text}
-          onChange={handlerChangeData}
-          onBlur={handlerBlurData}
+          {...register('rePassword')}
         />
-        <button type="submit" disabled={getError() ? true : false}>
+        <button type="submit" disabled={error ? true : false}>
           Зарегистрироваться
         </button>
       </form>

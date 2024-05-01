@@ -31,11 +31,7 @@ export const Form = ({ onShowMessage }) => {
   const { email, password, rePassword } = getState();
   const submitButtonRef = useRef(null);
 
-  // if (!getError()) {
-  //   submitButtonRef.current.focus();
-  // }
-
-  const handledSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
     console.log(email.text, password.text, rePassword.text);
   };
@@ -58,7 +54,7 @@ export const Form = ({ onShowMessage }) => {
     updateState(name, value, !!error);
   };
 
-  const handledChangeInformation = ({ target }) => {
+  const handlerChangeInformation = ({ target }) => {
     const { name, value } = target;
     let error = null;
     if (!/^[\w_@.]*$/.test(value)) {
@@ -66,7 +62,6 @@ export const Form = ({ onShowMessage }) => {
     } else {
       if (value.length > 30) {
         error = `Не более 30 символов`;
-      } else {
       }
     }
     onShowMessage(error);
@@ -85,14 +80,14 @@ export const Form = ({ onShowMessage }) => {
   return (
     <>
       <header>Регистрация</header>
-      <form onSubmit={handledSubmit}>
+      <form onSubmit={handlerSubmit}>
         <input
           className={`${styles.ordinary} ${email.error ? styles.error : ''}`}
           name="email"
           type="email"
           placeholder="E-mail"
           value={email.text}
-          onChange={handledChangeInformation}
+          onChange={handlerChangeInformation}
         />
         <input
           className={`${styles.ordinary} ${password.error ? styles.error : ''}`}
@@ -101,7 +96,7 @@ export const Form = ({ onShowMessage }) => {
           placeholder="Пароль"
           value={password.text}
           onBlur={handlerPasswordsBlur}
-          onChange={handledChangeInformation}
+          onChange={handlerChangeInformation}
         />
         <input
           className={`${styles.ordinary} ${
@@ -111,7 +106,7 @@ export const Form = ({ onShowMessage }) => {
           name="rePassword"
           placeholder="Повторите пароль"
           value={rePassword.text}
-          onChange={handledChangeInformation}
+          onChange={handlerChangeInformation}
           onBlur={handlerPasswordsBlur}
         />
         <button

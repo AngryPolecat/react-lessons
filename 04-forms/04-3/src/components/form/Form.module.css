@@ -30,3 +30,22 @@ button {
   float: right;
   margin-right: 0;
 }
+
+.message {
+  position: absolute;
+  width: 300px;
+  min-height: 150px;
+  right: 20px;
+  top: 20px;
+  padding: 10px;
+  text-align: left;
+  opacity: 1;
+  border: 1px solid red;
+  border-radius: 8px;
+  background-color: rgb(97, 0, 0);
+  white-space: pre-wrap;
+}
+
+.message.hidden {
+  opacity: 0;
+}
