@@ -1,0 +1,31 @@
+.todo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  margin: 10px;
+}
+
+.idTodo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: white;
+  line-height: 50px;
+  text-align: center;
+  color: black;
+}
+
+.idTodo.completed {
+  background-color: darkgrey;
+}
+
+.bodyTodo {
+  width: 700px;
+  line-height: 50px;
+  padding-left: 10px;
+}
+
+.bodyTodo.completed {
+  text-decoration: line-through;
+}

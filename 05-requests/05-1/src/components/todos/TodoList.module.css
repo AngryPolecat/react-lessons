@@ -1,0 +1,28 @@
+.todoList {
+  width: 750px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid white;
+  height: 96vh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.containerTodo {
+  position: fixed;
+  top: 75px;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 88vh;
+}
