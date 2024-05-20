@@ -52,11 +52,16 @@ export const App = () => {
   const handlerSortTodo = ({ target }) => {
     const sortedArray = Object.entries(dataset)
       .slice()
-      .sort(([, a], [, b]) => a.title.localeCompare(b.title));
-    //  .reduce((obj, [k, v]) => ({ ...obj, [k]: v }), {});
-    console.log(sortedArray);
+      .sort(([, a], [, b]) =>
+        target.name === 'title'
+          ? a.title.localeCompare(b.title)
+          : a.create - b.create
+      );
+
+    //console.log(sortedArray);
     const sortedDataset = Object.fromEntries(sortedArray);
-    console.log(sortedDataset);
+    //console.log(JSON.stringify(sortedDataset));
+    setDataset(sortedDataset);
   };
 
   const handlerCreateTodo = () => {
