@@ -4,29 +4,35 @@ import { Panel } from '../menu/Panel';
 
 export const TodoList = ({
   todos,
-  upd,
-  del,
-  create,
-  change,
-  text,
-  sort,
-  filter,
-  mode,
+  onUpdateComplitedTodo,
+  onCallMenuTodo,
+  onCreateTodo,
+  onInputText,
+  inputText,
+  onClickButtonSortTodo,
+  onChangeModeApp,
+  modeButtonFilter,
 }) => {
   return (
     <div className={styles.todoList}>
       <header className={styles.header}>Список дел</header>
       <Panel
-        create={create}
-        change={change}
-        text={text}
-        sort={sort}
-        filter={filter}
-        mode={mode}
+        onCreateTodo={onCreateTodo}
+        onInputText={onInputText}
+        inputText={inputText}
+        onClickButtonSortTodo={onClickButtonSortTodo}
+        onChangeModeApp={onChangeModeApp}
+        modeButtonFilter={modeButtonFilter}
       />
       <div className={styles.containerTodo}>
         {Object.entries(todos).map(([id, { title, completed }]) => (
-          <Todo key={id} completed={completed} id={id} upd={upd} del={del}>
+          <Todo
+            key={id}
+            completed={completed}
+            id={id}
+            onUpdateComplitedTodo={onUpdateComplitedTodo}
+            onCallMenuTodo={onCallMenuTodo}
+          >
             {title}
           </Todo>
         ))}

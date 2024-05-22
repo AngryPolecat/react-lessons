@@ -6,12 +6,16 @@ import styles from './App.module.css';
 import { Loader } from './components/loader/Loader';
 import { TodoList } from './components/todos/TodoList';
 import { db } from './firebase';
+import { Win } from './components/win/Win';
 
 export const App = () => {
   const [todos, setTodos] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [text, setText] = useState('');
-  const [modeFilter, setModeFilter] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [inputText, setInputText] = useState('');
+  const [modeButtonFilter, setModeButtonFilter] = useState(false);
+  const [isOpeningMenuTodo, setIsOpeningMenuTodo] = useState(false);
+  const [updatableTodo, setUpdatableTodo] = useState({});
+  const [updatedTextTodo, setUpdatedTextTodo] = useState('');
 
   const searchTodo = (text) => {
     const todosDbRef = ref(db, 'todos');
@@ -27,15 +31,19 @@ export const App = () => {
 
   const debouncedSearchTodo = useCallback(debounce(searchTodo, 1000), []);
 
+  const handlerUpdateTextTodo = ({ target }) => {
+    setUpdatedTextTodo(target.value);
+  };
+
   const handlerChangeText = ({ target }) => {
-    setText(target.value);
-    if (modeFilter) {
+    setInputText(target.value);
+    if (modeButtonFilter) {
       debouncedSearchTodo(target.value);
     }
   };
 
-  const handlerFilterTodo = () => {
-    setModeFilter(!modeFilter);
+  const handlerChangeModeApp = () => {
+    setModeButtonFilter(!modeButtonFilter);
   };
 
   useEffect(() => {
@@ -43,9 +51,8 @@ export const App = () => {
 
     return onValue(todosDbRef, (snapshot) => {
       const loadedTodos = snapshot.val() || {};
-      //console.log(loadedTodos);
       setTodos(loadedTodos);
-      setIsLoaded(true);
+      setTimeout(() => setIsLoading(false), 200);
     });
   }, []);
 
@@ -57,18 +64,16 @@ export const App = () => {
           ? a.title.localeCompare(b.title)
           : a.create - b.create
       );
-
-    //console.log(sortedArray);
     const sortedDataset = Object.fromEntries(sortedArray);
-    //console.log(JSON.stringify(sortedDataset));
     setTodos(sortedDataset);
   };
 
   const handlerCreateTodo = () => {
-    if (text) {
+    if (inputText) {
+      setIsLoading(true);
       const todosDbRef = ref(db, 'todos');
       push(todosDbRef, {
-        title: text,
+        title: inputText,
         completed: false,
         create: Date.now(),
       })
@@ -76,12 +81,13 @@ export const App = () => {
           //console.log(response);
         })
         .finally(() => {
-          setText('');
+          setInputText('');
         });
     }
   };
 
-  const handlerUpdateTodo = (id) => {
+  const handlerComplitedTodo = (id) => {
+    setIsLoading(true);
     const updatedTodo = Object.entries(todos)
       .find(([idTodo]) => idTodo === id)
       .at(1);
@@ -94,29 +100,70 @@ export const App = () => {
     });
   };
 
-  const handlerRemoveTodo = (id) => {
+  const handlerRemoveTodo = () => {
+    setIsLoading(true);
+    setIsOpeningMenuTodo(!isOpeningMenuTodo);
+    const id = updatableTodo;
     const todosDbRef = ref(db, `todos/${id}`);
     remove(todosDbRef).then((response) => {
       //console.log(response);
     });
   };
 
+  const handlerSaveTextTodo = () => {
+    if (updatedTextTodo) {
+      setIsLoading(true);
+      setIsOpeningMenuTodo(!isOpeningMenuTodo);
+      const id = updatableTodo;
+      const [, updatedTodo] = Object.entries(todos).find(
+        ([idTodo]) => idTodo === id
+      );
+      const todosDbRef = ref(db, `todos/${id}`);
+      set(todosDbRef, {
+        ...updatedTodo,
+        title: updatedTextTodo,
+      }).then((response) => {
+        //console.log(response);
+      });
+    }
+  };
+
+  const handlerClickMenuTodo = (id) => {
+    if (id) {
+      setIsOpeningMenuTodo(!isOpeningMenuTodo);
+      const [currentTodo, { title }] = Object.entries(todos).find(
+        ([idTodo]) => idTodo === id
+      );
+      setUpdatableTodo(currentTodo);
+      setUpdatedTextTodo(title);
+    }
+  };
+
   return (
     <div className={styles.app}>
-      {!isLoaded ? (
+      <Win
+        isOpeningMenuTodo={isOpeningMenuTodo}
+        onClickWin={() => setIsOpeningMenuTodo(!isOpeningMenuTodo)}
+        onRemoveTodo={handlerRemoveTodo}
+        onUpdateTodo={handlerSaveTextTodo}
+        currentTodo={updatableTodo}
+        onUpdateTextTodo={handlerUpdateTextTodo}
+        textTodo={updatedTextTodo}
+      />
+      {isLoading ? (
         <Loader />
       ) : (
         <>
           <TodoList
             todos={todos}
-            upd={handlerUpdateTodo}
-            del={handlerRemoveTodo}
-            create={handlerCreateTodo}
-            change={handlerChangeText}
-            text={text}
-            sort={handlerSortTodo}
-            filter={handlerFilterTodo}
-            mode={modeFilter}
+            onUpdateComplitedTodo={handlerComplitedTodo}
+            onCallMenuTodo={handlerClickMenuTodo}
+            onCreateTodo={handlerCreateTodo}
+            onInputText={handlerChangeText}
+            inputText={inputText}
+            onClickButtonSortTodo={handlerSortTodo}
+            onChangeModeApp={handlerChangeModeApp}
+            modeButtonFilter={modeButtonFilter}
           />
         </>
       )}

@@ -1,12 +1,18 @@
 import styles from './Todo.module.css';
 
-export const Todo = ({ id, completed, children, upd, del }) => {
-  const removeTodo = ({ target }) => {
-    del(target.dataset.id);
+export const Todo = ({
+  id,
+  completed,
+  children,
+  onUpdateComplitedTodo,
+  onCallMenuTodo,
+}) => {
+  const callMenuTodo = ({ target }) => {
+    onCallMenuTodo(target.dataset.id);
   };
 
-  const updateTodo = ({ target }) => {
-    upd(target.dataset.id);
+  const complitedTodo = ({ target }) => {
+    onUpdateComplitedTodo(target.dataset.id);
   };
 
   return (
@@ -16,13 +22,13 @@ export const Todo = ({ id, completed, children, upd, del }) => {
       ></div>
       <div
         className={`${styles.bodyTodo} ${completed ? styles.completed : ''}`}
-        onClick={updateTodo}
+        onClick={complitedTodo}
         data-id={id}
       >
         {children}
       </div>
-      <button className={styles.removeTodo} onClick={removeTodo} data-id={id}>
-        X
+      <button className={styles.removeTodo} onClick={callMenuTodo} data-id={id}>
+        &#9776;
       </button>
     </div>
   );
