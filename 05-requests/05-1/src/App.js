@@ -1,28 +1,26 @@
 import { useState } from 'react';
+import { URL } from './config';
 import styles from './App.module.css';
 import { useEffect } from 'react';
 import { Loader } from './components/loader/Loader';
 import { TodoList } from './components/todos/TodoList';
 
-const URL = 'https://jsonplaceholder.typicode.com/todos';
-
 export const App = () => {
-  const [dataset, setDataset] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [todos, setTodos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(URL)
       .then((response) => response.json())
-      .then((dataset) => {
-        console.log(dataset);
-        setDataset(dataset);
+      .then((todos) => {
+        setTodos(todos);
       })
-      .finally(() => setTimeout(() => setIsLoaded(true), 2000));
+      .finally(() => setTimeout(() => setIsLoading(false), 2000));
   }, []);
 
   return (
     <div className={styles.app}>
-      {!isLoaded ? <Loader /> : <TodoList dataset={dataset} />}
+      {isLoading ? <Loader /> : <TodoList todos={todos} />}
     </div>
   );
 };

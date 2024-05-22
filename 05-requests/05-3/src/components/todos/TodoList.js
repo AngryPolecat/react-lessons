@@ -3,7 +3,7 @@ import { Todo } from './Todo';
 import { Panel } from '../menu/Panel';
 
 export const TodoList = ({
-  dataset,
+  todos,
   upd,
   del,
   create,
@@ -25,7 +25,7 @@ export const TodoList = ({
         mode={mode}
       />
       <div className={styles.containerTodo}>
-        {Object.entries(dataset).map(([id, { title, completed }]) => (
+        {Object.entries(todos).map(([id, { title, completed }]) => (
           <Todo key={id} completed={completed} id={id} upd={upd} del={del}>
             {title}
           </Todo>

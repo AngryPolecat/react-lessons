@@ -3,11 +3,10 @@ import debounce from 'lodash/debounce';
 import styles from './App.module.css';
 import { Loader } from './components/loader/Loader';
 import { TodoList } from './components/todos/TodoList';
-
-const URL = 'http://localhost:3001/todos';
+import { URL } from './config';
 
 export const App = () => {
-  const [dataset, setDataset] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [refreshTodo, setRefreshTodo] = useState(false);
   const [text, setText] = useState('');
@@ -17,7 +16,7 @@ export const App = () => {
     const url = `${URL}?title_like=${text}`;
     fetch(url)
       .then((response) => response.json())
-      .then((result) => setDataset(result));
+      .then((result) => setTodos(result));
   };
 
   const debouncedSearchTodo = useCallback(debounce(searchTodo, 1000), []);
@@ -38,8 +37,8 @@ export const App = () => {
   useEffect(() => {
     fetch(URL)
       .then((response) => response.json())
-      .then((dataset) => {
-        setDataset(dataset);
+      .then((todos) => {
+        setTodos(todos);
       })
       .finally(() => {
         setTimeout(() => setIsLoaded(true), 2000);
@@ -50,7 +49,7 @@ export const App = () => {
     fetch(`${URL}/?_sort=${target.name}&_order=asc`)
       .then((response) => response.json())
       .then((result) => {
-        setDataset(result);
+        setTodos(result);
       });
   };
 
@@ -75,7 +74,7 @@ export const App = () => {
   };
 
   const handlerUpdateTodo = (id) => {
-    const updatedTodo = dataset.find((todo) => todo.id === Number(id));
+    const updatedTodo = todos.find((todo) => todo.id === Number(id));
     fetch(`${URL}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -107,7 +106,7 @@ export const App = () => {
       ) : (
         <>
           <TodoList
-            dataset={dataset}
+            todos={todos}
             upd={handlerUpdateTodo}
             del={handlerRemoveTodo}
             create={handlerCreateTodo}

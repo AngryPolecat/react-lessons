@@ -8,7 +8,7 @@ import { TodoList } from './components/todos/TodoList';
 import { db } from './firebase';
 
 export const App = () => {
-  const [dataset, setDataset] = useState({});
+  const [todos, setTodos] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [text, setText] = useState('');
   const [modeFilter, setModeFilter] = useState(false);
@@ -21,7 +21,7 @@ export const App = () => {
         .slice()
         .filter(([, body]) => body.title.includes(text));
       const filteredDataset = Object.fromEntries(filteredArray);
-      setDataset(filteredDataset);
+      setTodos(filteredDataset);
     });
   };
 
@@ -44,13 +44,13 @@ export const App = () => {
     return onValue(todosDbRef, (snapshot) => {
       const loadedTodos = snapshot.val() || {};
       //console.log(loadedTodos);
-      setDataset(loadedTodos);
+      setTodos(loadedTodos);
       setIsLoaded(true);
     });
   }, []);
 
   const handlerSortTodo = ({ target }) => {
-    const sortedArray = Object.entries(dataset)
+    const sortedArray = Object.entries(todos)
       .slice()
       .sort(([, a], [, b]) =>
         target.name === 'title'
@@ -61,7 +61,7 @@ export const App = () => {
     //console.log(sortedArray);
     const sortedDataset = Object.fromEntries(sortedArray);
     //console.log(JSON.stringify(sortedDataset));
-    setDataset(sortedDataset);
+    setTodos(sortedDataset);
   };
 
   const handlerCreateTodo = () => {
@@ -82,7 +82,7 @@ export const App = () => {
   };
 
   const handlerUpdateTodo = (id) => {
-    const updatedTodo = Object.entries(dataset)
+    const updatedTodo = Object.entries(todos)
       .find(([idTodo]) => idTodo === id)
       .at(1);
     const todosDbRef = ref(db, `todos/${id}`);
@@ -108,7 +108,7 @@ export const App = () => {
       ) : (
         <>
           <TodoList
-            dataset={dataset}
+            todos={todos}
             upd={handlerUpdateTodo}
             del={handlerRemoveTodo}
             create={handlerCreateTodo}
