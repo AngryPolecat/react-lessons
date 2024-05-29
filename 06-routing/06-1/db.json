@@ -1,0 +1,44 @@
+{
+  "todos": [
+    {
+      "title": "In jure cessio hoc modo fit: apud magistrātum popŭli Romāni, velut praetōrem, is, cui res in jure cedĭtur, rem tenens, ita dicit: \"Hunc ego homĭnem ex jure Quiritium meum esse ajo\". Deinde postquam hic vindicavĕrit, praetor interrŏgat eum, qui cedit, an contra vindĭcet. Quo (eo) negante aut tacente tunc ei qui vindicavĕrit, eam rem addīcit. Hoc fiĕri potest etiam in provinciis apud praesĭdes eārum. 2. Plerumque tamen mancipationĭbus utĭmur: quod enim ipsi per nos praesentĭbus amīcis agĕre possŭmus, hoc non interest nec necesse (est) cum majōre difficultāte apud praetōrem aut apud praesĭdem provinciae agĕre (Gajus).",
+      "completed": false,
+      "id": 1
+    },
+    {
+      "title": "Lucius Titius Sejum et Maevium, libertos suos, aequis partĭbus herēdes scripsit. Deinde codicillis ita  cavit: Lucius Titius Sejo, herēdi suo, salūtem.  Maevium, libertum meum, quem in testamento pro parte dimidia herēdem institui, eam partem hereditātis veto accipĕre; in ejus locum et partem Publium Sempronium herēdem esse jubeo.",
+      "completed": false,
+      "id": 2
+    },
+    {
+      "title": "Arbĭter noster Marcus Tullius est vir laboriōsus et justus. Hodie apud arbĭtrum multae causae privātae sunt: de debĭtis pecuniariis; de testamentis et de mandātis. Primus reus jam in judicio est, cetĕri rei etiam in judicio sunt. In numĕro causārum prima est causa mea de mandāto et debĭto pecuniario. Adversarius meus est Gajus Sempronius.",
+      "completed": false,
+      "id": 4
+    },
+    {
+      "title": "Diāna et Minerva magnae et clarae deae sunt. Diāna dea silvarum, praeterea dea lunae est. Dea sagīttas habet. Sagittis bestias silvae necat. Minerva dea pugnārum est. Minerva hastā pugnat. Minerva quoque dea sapientiae est et littĕras amat. Femĭnae Romānae deārum iram timent. Itгque saepe deas orant et aras rosārum corōnis ornant. In Italia multas deārum statuas marmoreas etiam nunc vidēmus.",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "title": "Lingua Latīna est lingua antiqua. Lingua Latīna et lingua Graeca sunt linguae antiquae. Italia est terra Europae et patria linguae Latīnae. Roma est in Italia. Lingua Latīna est lingua poētārum Romae antiquae. Multis pugnis et multis victoriis Roma clara est. Sicilia est magna insŭla Eurōpae inter Italiam et Afrĭcam sita. In ora Siciliae est Aetna. Nota est audacia nautārum Graeciae. Athēnae in Graecia sunt. Athēnae clarae sunt doctrīnā et littĕris.",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "title": "Graeci et Romani non unum deum, sed multos deos deasque colunt. Primus in numмro deōrum Juppĭter est, Saturni filius, domĭnus mundi. Locus, ubi Juppiter solio sedet et mundi imperium tenet, est Olympus. Inde deus deōrum tonat et fulmĭnat. Neptūnus secundus filius Saturni est. Neptūnus in Oceгno regnat. Ubi ventos et procellas et excĭtat, et mitĭgat. Pluto, Saturni tertius filius, horrīdus est umbrārum domĭnus, deus inferōrum. Pluto sub terrā regnat.",
+      "completed": false,
+      "id": 7
+    },
+    {
+      "title": "Emptio et venditio contrahĭtur, simulatque de pretio convenĕrit, quamvis nondum pretium numerātum sit ac ne arra quidem data fuĕrit. Nam quod arrae nomĭne datur, argumentum est emptiōnis et venditiōnis contractae. Sed haec quidem de emptionĭbus et venditionĭbus, quae sine scriptūra consistunt, obtinēre oportet: nam nihil a nobis in hujusmŏdi venditionĭbus innovātum est. In his autem, quae scriptūra conficiuntur, non alĭter perfectam esse emptiōnem et venditiōnem constituĭmus, nisi ei instrumenta emptiōnis fuĕrint consripta vel manu propria contrahentium, vel ab alio quidem scripta, a contrahente autem subscripta et, si per tabelliōnem fiunt, nisi et completiōnes accepĕrint et fuĕrint partĭbus absolūta. Donec enim alĭquid ex his deest, et poenitentiae locus est et potest emptor vel vendĭtor sine poena recedĕre ab emptiōne. Ita tamen impūne recedĕre eis concedĭmus, nisi jam arrārum nomĭne alĭquid fuĕrit datum: hoc etĕnim subsecūto, sive in scriptis sive sine scriptis venditio celebrāta est, is, qui recūsat adimplēre contractum, si quidem emptor est, perdit, quod dedit, si vero vendĭtor, duplum reslituĕre compellĭtur, licet nihil super arris expressum est. Pretium autem constitui oportet: nam nulla emptio sine pretio esse potest. Sed et certum pretium esse debet. Alioquin si ita inter alĭquos convenĕrit, ut, quanti Titius rem aestimavĕrit, tanli sit empta: inter vetĕres satis abundĭque hoc dubitabātur, sive constat venditio sive non. Sed nostra decisio ita hoc constituit, ut, quotiens sic composĭta sit venditio quanti ille aestimavĕrit, sub hac condiciōne staret contractus, ut, si quidem ipse, qui nominātus est, pretium definiĕrit, omnimŏdo secundum ejus aestimatiōnem et pretium persolvātur et res tradātur, ut venditio ad effectum perducātur, emptōre quidem ex empto actiōne, venditōre autem ex vendĭto agente. Sin autem ille, qui nominātus est, vel noluĕrit vel non potuĕrit pretium definīre, tunc pro nihĭlo esse venditiōnem, quasi nullo pretio statūto. Quod jus cum in venditionĭbus nobis placuit, nоn est absurdum et in locationĭbus et conductionĭbus trahĕre. Item pretium in numerāta pecunia consistĕre debet. Nam in cetĕris rebus an pretium esse possit, velŭti homo aut fundus aut toga alterīus rei pretium esse possit, valde quaerebātur... Cum autem emptio et venditio contracta sit (quod effĭci dixĭmus, simulatque de pretio convenĕrit, cum sine scriptūra res agĭtur), pericŭlum rei vendĭtae statim ad emptōrem pertĭnet, tametsi adhuc ea res emptōri tradĭta non sit. Ităque si homo mortuus sit vel alĭqua parte corpŏris laesus fiĕrit, aut aedes totae aut alĭqua ex parte incendio consumptae fuĕrint, aut fundus vi flumĭnis totus vel alĭqua ex parte ablātus sit, sive etiam inundatiōne aquae aut arborĭbus turbĭne dejectis longe minor aut deterior esse coepĕrit: emptōris damnum est, cui necesse est, licet rem non fuĕrit nactus, pretium solvĕre. Quiquid enim sine dolo et culpa venditōris accĭdit, in eo vendĭtor secūrus est. Sed et si post emptiōnem fundo alĭquid per alluviōnem accessit, ad emptōris commŏdum pertĭnet: nam et commŏdum ejus esse debet, cujus pericŭlum est. Quodsi fugĕrit homo, qui veniit, aut subreptus fuĕrit, ita ut neque dolus neque culpa venditōris interveniat, animadvertendum erit, an custodiam ejus usque ad traditiōnem vendĭtor suscepĕrit. Sane enim, si suscepĕrit, ad ipsīus pericŭlum is casus pertĭnet: si non suscepĕrit, secūrus erit. Idem et in cetĕris animalĭbus ceterisque rebus intellegĭmus. Utĭque tamen vindicatiōnem rei et condictiōnem exhibēre debēbit emptōri, quia sane, qui rеm nondum emptōri tradĭdit, adhuc ipse domĭnus est. Idem est etiam de furti et de damni injuriae actiōne. Emptio tam sub condiciōne quam pure contrăhi potest. Sub condiciōne velŭti si stichus intra certum diem tibi placuĕrit, erit tibi emptus aureis tot. Loca sacra vel religiōsa, item publĭca, velŭti forum, basilĭcam, frustra quis sciens emit, quas tamen si pro privātis vel profānis, deceptus a venditōre, emĕrit, habēbit actiōnem ex empto, quod non habēre ei liceat, ut consequātur, quod sua interest, deceptum eum non esse. Idem juris est, si homĭnem libĕrum pro servo emĕrit.",
+      "completed": false,
+      "id": 11
+    },
+    {
+      "title": "Gaius Iulius Caesar cum Marco Bibŭlo consul creātur1. Gnaeo Pompeio Marcum Crassum reconciliāvit2, vetĕrem inimīcum ex consulātu, quem summā discordiā simul gessĕrant. Societātem cum utrōque iniit3, ne quid agerētur in re publĭca, quod displicuisset uni e tribus. Consul primus omnium instituit, ut acta diurna tam senātus quam popŭli confiĕrent et publicarentur. Lege autem agrariā promulgātā obnuntiantem collēgam armis Foro expŭlit.",
+      "completed": false,
+      "id": 12
+    }
+  ]
+}

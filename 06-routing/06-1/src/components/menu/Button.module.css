@@ -1,0 +1,16 @@
+.buttons {
+  margin-top: 10px;
+  margin-right: 10px;
+  height: 47px;
+  width: 100px;
+  border-radius: 5px;
+}
+
+.buttonsTodo {
+  font-size: 25px;
+}
+
+.filtration {
+  background-color: brown;
+  color: white;
+}

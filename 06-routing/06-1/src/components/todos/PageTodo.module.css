@@ -1,0 +1,37 @@
+.pageTodo {
+  width: 750px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.bodyTodo {
+  padding: 10px;
+}
+
+.containerTextArea {
+  width: 98%;
+  margin: 10px auto;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 20px;
+  resize: vertical;
+  height: 50vh;
+  min-height: 10vh;
+  max-height: 82vh;
+}

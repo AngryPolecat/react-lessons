@@ -1,0 +1,18 @@
+.containerTextError {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 750px;
+  margin: 0 auto;
+  font-size: 30px;
+}
+
+.textError {
+  text-align: center;
+  color: white;
+}
+
+.link {
+  color: white;
+}
