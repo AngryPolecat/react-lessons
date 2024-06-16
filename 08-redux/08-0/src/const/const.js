@@ -12,5 +12,5 @@ export const WIN_PATTERNS = [
 export const INITIAL_STATE = {
   field: Array(9).fill(''),
   player: 'X',
-  status: 'game',
+  status: null,
 };

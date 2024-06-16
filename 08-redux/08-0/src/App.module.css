@@ -1,0 +1,19 @@
+.app {
+  text-align: center;
+  width: 750px;
+  margin: 0 auto;
+  border: 2px solid white;
+  padding: 5px;
+}
+
+button {
+  padding: 10px;
+  font-size: medium;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.text {
+  padding: 20px;
+  font-size: 20px;
+}

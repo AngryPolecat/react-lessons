@@ -1,16 +1,26 @@
-const INITIAL_VALUE = Array(9).fill('');
+import { INITIAL_STATE } from '../const/const';
 
-export const reducer = (state = INITIAL_VALUE, action) => {
+export const reducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case 'RESET':
-      return Array(9).fill('');
+      return { ...INITIAL_STATE };
     case 'MOVE':
-      const { cell, player } = payload;
-      state.splice(cell, 1, player);
-      return state;
+      const { cell } = payload;
+      const field = [...state.field];
+      field.splice(cell, 1, state.player);
+      return {
+        ...state,
+        field,
+      };
+    case 'CHANGE_PLAYER':
+      return { ...state, player: state.player === 'X' ? 'O' : 'X' };
+    case 'WIN':
+      return { ...state, status: 'win' };
+    case 'DRAW':
+      return { ...state, status: 'draw' };
     default:
-      return state;
+      return { ...state };
   }
 };
