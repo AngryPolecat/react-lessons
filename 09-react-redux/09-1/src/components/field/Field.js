@@ -1,11 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './Field.module.css';
-import {
-  movePlayer,
-  CHANGE_PLAYER,
-  changeStatusGame,
-  STATE_GAME,
-} from '../../const/const';
+import { CHANGE_PLAYER, STATE_GAME } from '../../const/const';
+import { movePlayer, changeStatusGame } from '../../actions';
 import { checkResult } from '../../utils/check';
 
 export const Field = () => {

@@ -26,24 +26,10 @@ export const INITIAL_STATE = {
   status: STATE_GAME.game,
 };
 
-export const movePlayer = (cell) => {
-  return {
-    type: 'MOVE',
-    payload: { cell },
-  };
-};
-
 export const CHANGE_PLAYER = {
   type: 'CHANGE_PLAYER',
 };
 
 export const RESET = {
   type: 'RESET',
-};
-
-export const changeStatusGame = (status) => {
-  return {
-    type: 'CHANGE_STATUS',
-    payload: { status },
-  };
 };
