@@ -4,7 +4,7 @@ import { Todo } from './Todo';
 import { Panel } from '../menu/Panel';
 
 export const TodoList = () => {
-  const todos = useSelector((state) => state.todosState.todos);
+  const todos = useSelector(({ todosState }) => todosState);
 
   return (
     <div className={styles.todoList}>

@@ -1,8 +1,6 @@
-export const INITIAL_TODOS = {
-  todos: [],
-};
+export const INITIAL_TODOS = [];
 
-export const INITIAL_LOADER = { loader: false };
+export const INITIAL_OPTIONS = { isLoading: false };
 
 export const PROCESS_LOAD_DATA_START = {
   type: 'TOGGLE_LOAD',
