@@ -1,6 +1,6 @@
-import { INITIAL_TODOS } from '../const/const';
+import { INITIAL_LOADER } from '../const/const';
 
-export const loaderReducer = (state = INITIAL_TODOS, action) => {
+export const loaderReducer = (state = INITIAL_LOADER, action) => {
   const { type, payload } = action;
   switch (type) {
     case 'TOGGLE_LOAD':
