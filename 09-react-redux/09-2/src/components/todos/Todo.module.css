@@ -27,11 +27,11 @@
   cursor: pointer;
 }
 
-.bodyTodo.completed {
-  text-decoration: line-through;
+.inputTodo {
+  margin: 0;
+  width: 490px;
 }
 
-.removeTodo {
-  width: 50px;
-  font-size: 20px;
+.bodyTodo.completed {
+  text-decoration: line-through;
 }

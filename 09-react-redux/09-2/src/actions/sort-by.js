@@ -1,7 +1,7 @@
 import { URL } from '../config';
 
-export const loadTodosAsync = (dispatch) =>
-  fetch(URL)
+export const sortTodos = (nameField) => (dispatch) =>
+  fetch(`${URL}/?_sort=${nameField}&_order=asc`)
     .then((response) => response.json())
     .then((result) => {
       dispatch({

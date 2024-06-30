@@ -1,7 +1,7 @@
 import { URL } from '../config';
 
-export const loadTodosAsync = (dispatch) =>
-  fetch(URL)
+export const searchTodo = (textTodo) => (dispatch) =>
+  fetch(`${URL}?title_like=${textTodo}`)
     .then((response) => response.json())
     .then((result) => {
       dispatch({
