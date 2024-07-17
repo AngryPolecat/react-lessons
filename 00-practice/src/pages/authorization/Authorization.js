@@ -1,14 +1,15 @@
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { server } from '../../bff'
-import { setUser } from '../../actions'
-import { Input, Button } from '../../components'
-
-import styled from 'styled-components'
+import { useDispatch, useStore, useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { server } from '../../bff';
+import { setUser } from '../../actions';
+import { roleSelector } from '../../selectors';
+import { Input, Button } from '../../components';
+import { ROLE } from '../../const';
+import styled from 'styled-components';
 
 const authFormSchema = yup.object().shape({
   login: yup
@@ -23,26 +24,27 @@ const authFormSchema = yup.object().shape({
     .matches(/^[\w#%]+$/, 'Неверно заполнен пароль. Допускаются только буквы, цифры и знаки # %')
     .min(5, 'Неверно заполнен пароль. Минимум 3 символа')
     .max(30, 'неверно заполнен пароль. Максимум 15 символов'),
-})
+});
 
 const ErrorMessage = styled.div`
   padding: 10px;
   background-color: #fcadad;
   color: white;
   margin: 10px 0px;
-`
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: underline;
   font-size: 12px;
   margin: 10px 0px;
-`
+`;
 
 const AuthorizationContainer = ({ className }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -51,23 +53,40 @@ const AuthorizationContainer = ({ className }) => {
       password: '',
     },
     resolver: yupResolver(authFormSchema),
-  })
+  });
 
-  const [serverError, setServerError] = useState(null)
+  const role = useSelector(roleSelector);
+  const [serverError, setServerError] = useState(null);
+  const store = useStore();
+
+  useEffect(() => {
+    let currentWasLogout = store.getState().app.wasLogout;
+    return store.subscribe(() => {
+      const previousWasLogout = currentWasLogout;
+      currentWasLogout = store.getState().app.wasLogout;
+      if (previousWasLogout !== currentWasLogout) {
+        reset();
+      }
+    });
+  }, [store, reset]);
 
   const onSubmit = ({ login, password }) => {
     server.authorize(login, password).then(({ error, res }) => {
       if (error) {
-        setServerError(`Ошибка запроса: ${error}`)
-        return
+        setServerError(`Ошибка запроса: ${error}`);
+        return;
       }
 
-      dispatch(setUser(res))
-    })
-  }
+      dispatch(setUser(res));
+    });
+  };
 
-  const formError = errors?.login?.message || errors?.password?.message
-  const errorMessage = formError || serverError
+  const formError = errors?.login?.message || errors?.password?.message;
+  const errorMessage = formError || serverError;
+
+  if (role !== ROLE.GUEST) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className={className}>
@@ -94,8 +113,8 @@ const AuthorizationContainer = ({ className }) => {
         <StyledLink to="/register">Регистрация</StyledLink>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export const Authorization = styled(AuthorizationContainer)`
   display: flex;
@@ -107,4 +126,4 @@ export const Authorization = styled(AuthorizationContainer)`
     flex-direction: column;
     width: 300px;
   }
-`
+`;

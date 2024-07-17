@@ -1,30 +1,31 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { Icon, Button } from '../../../../components'
-import { loginSelector, roleSelector, sessionSelector } from '../../../../selectors'
-import { ROLE } from '../../../../const'
-import { logout } from '../../../../actions'
-import styled from 'styled-components'
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Icon, Button } from '../../../../components';
+import { loginSelector, roleSelector, sessionSelector } from '../../../../selectors';
+import { ROLE } from '../../../../const';
+import { logout } from '../../../../actions';
+import styled from 'styled-components';
 
 const RightAligned = styled.div`
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 const IconButton = styled.div`
   cursor: pointer;
-`
+`;
 
 const Login = styled.div`
   margin-top: 2px;
-`
+  font-weight: bold;
+`;
 
 const ControlPanelContainer = ({ className }) => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const login = useSelector(loginSelector)
-  const role = useSelector(roleSelector)
-  const session = useSelector(sessionSelector)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const login = useSelector(loginSelector);
+  const role = useSelector(roleSelector);
+  const session = useSelector(sessionSelector);
 
   return (
     <div className={className}>
@@ -54,9 +55,9 @@ const ControlPanelContainer = ({ className }) => {
         </Link>
       </RightAligned>
     </div>
-  )
-}
+  );
+};
 
 export const ControlPanel = styled(ControlPanelContainer)`
   margin-top: 10px;
-`
+`;
