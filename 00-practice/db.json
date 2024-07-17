@@ -13,6 +13,41 @@
       "password": "user",
       "registed_at": "2024-08-08",
       "role_id": 2
+    },
+    {
+      "login": "user123",
+      "password": "qwerty",
+      "registed_at": "2050-04-30 21:22",
+      "role_id": 2,
+      "id": "FHuCg5x"
+    },
+    {
+      "login": "user666",
+      "password": "123456",
+      "registed_at": "2037-11-02 01:27",
+      "role_id": 2,
+      "id": "rIGI62r"
+    },
+    {
+      "login": "user555",
+      "password": "123456",
+      "registed_at": "2062-03-21 17:18",
+      "role_id": 2,
+      "id": "EL5ZF3g"
+    },
+    {
+      "login": "Youhu",
+      "password": "123456",
+      "registed_at": "2055-12-11 09:54",
+      "role_id": 2,
+      "id": "TgJU6lD"
+    },
+    {
+      "login": "Eowin",
+      "password": "123456",
+      "registed_at": "2058-07-21 04:06",
+      "role_id": 2,
+      "id": "PcmMRPm"
     }
   ],
   "roles": [

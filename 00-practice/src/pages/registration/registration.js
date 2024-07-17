@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,7 +13,7 @@ import { AuthError } from '../../components';
 import { useResetForm } from '../../hooks';
 import styled from 'styled-components';
 
-const authFormSchema = yup.object().shape({
+const regFormSchema = yup.object().shape({
   login: yup
     .string()
     .required('Заполните логин')
@@ -26,15 +26,10 @@ const authFormSchema = yup.object().shape({
     .matches(/^[\w#%]+$/, 'Неверно заполнен пароль. Допускаются только буквы, цифры и знаки # %')
     .min(5, 'Неверно заполнен пароль. Минимум 3 символа')
     .max(30, 'неверно заполнен пароль. Максимум 15 символов'),
+  passcheck: yup.string().oneOf([yup.ref('password'), null], 'Пароли не совпадают'),
 });
 
-const StyledLink = styled(Link)`
-  text-decoration: underline;
-  font-size: 12px;
-  margin: 10px 0px;
-`;
-
-const AuthorizationContainer = ({ className }) => {
+const RegistrationContainer = ({ className }) => {
   const dispatch = useDispatch();
 
   const {
@@ -46,26 +41,27 @@ const AuthorizationContainer = ({ className }) => {
     defaultValues: {
       login: '',
       password: '',
+      passcheck: '',
     },
-    resolver: yupResolver(authFormSchema),
+    resolver: yupResolver(regFormSchema),
   });
 
   const role = useSelector(roleSelector);
   const [serverError, setServerError] = useState(null);
+
   useResetForm(reset);
 
   const onSubmit = ({ login, password }) => {
-    server.authorize(login, password).then(({ error, res }) => {
+    server.register(login, password).then(({ error, res }) => {
       if (error) {
         setServerError(`Ошибка запроса: ${error}`);
         return;
       }
-
       dispatch(setUser(res));
     });
   };
 
-  const formError = errors?.login?.message || errors?.password?.message;
+  const formError = errors?.login?.message || errors?.password?.message || errors?.passcheck?.message;
   const errorMessage = formError || serverError;
 
   if (role !== ROLE.GUEST) {
@@ -74,7 +70,7 @@ const AuthorizationContainer = ({ className }) => {
 
   return (
     <div className={className}>
-      <h2>Авторизация</h2>
+      <h2>Регистрация</h2>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Input
           type="text"
@@ -83,24 +79,18 @@ const AuthorizationContainer = ({ className }) => {
             onChange: () => setServerError(null),
           })}
         />
-        <Input
-          type="password"
-          placeholder="Пароль..."
-          {...register('password', {
-            onChange: () => setServerError(null),
-          })}
-        />
+        <Input type="password" placeholder="Пароль..." {...register('password')} />
+        <Input type="password" placeholder="Повторить пароль..." {...register('passcheck')} />
         <Button type="submit" disabled={!!formError} width="300px">
-          Авторизация
+          Регистрация
         </Button>
         {errorMessage && <AuthError>{errorMessage}</AuthError>}
-        <StyledLink to="/register">Регистрация</StyledLink>
       </form>
     </div>
   );
 };
 
-export const Authorization = styled(AuthorizationContainer)`
+export const Registration = styled(RegistrationContainer)`
   display: flex;
   flex-direction: column;
   align-items: center;
