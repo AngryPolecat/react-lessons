@@ -1,7 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
-import { Header, Footer } from './components';
-import { Authorization, Registration } from './pages';
-import styled from 'styled-components';
+import { Routes, Route } from 'react-router-dom'
+import { Header, Footer } from './components'
+import { Authorization, Registration, Users } from './pages'
+import styled from 'styled-components'
 
 const AppColumn = styled.div`
   display: flex;
@@ -11,12 +11,12 @@ const AppColumn = styled.div`
   min-height: 100%;
   background-color: #fff;
   margin: 0 auto;
-`;
+`
 
 const Content = styled.div`
   text-align: center;
   margin-top: 120px;
-`;
+`
 
 export const Blog = () => {
   return (
@@ -29,11 +29,11 @@ export const Blog = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/post" element={<div>Новая статья</div>} />
           <Route path="/post/:postId" element={<div>Статья</div>} />
-          <Route path="/users" element={<div>Пользователи</div>} />
+          <Route path="/users" element={<Users />} />
           <Route path="*" element={<div>Ошибка</div>} />
         </Routes>
       </Content>
       <Footer />
     </AppColumn>
-  );
-};
+  )
+}
