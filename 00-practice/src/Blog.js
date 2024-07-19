@@ -13,7 +13,7 @@ const AppColumn = styled.div`
   margin: 0 auto;
 `
 
-const Content = styled.div`
+const Page = styled.div`
   text-align: center;
   margin-top: 120px;
 `
@@ -22,7 +22,7 @@ export const Blog = () => {
   return (
     <AppColumn>
       <Header />
-      <Content>
+      <Page>
         <Routes>
           <Route path="/" element={<div>Главная страница</div>} />
           <Route path="/login" element={<Authorization />} />
@@ -32,7 +32,7 @@ export const Blog = () => {
           <Route path="/users" element={<Users />} />
           <Route path="*" element={<div>Ошибка</div>} />
         </Routes>
-      </Content>
+      </Page>
       <Footer />
     </AppColumn>
   )
