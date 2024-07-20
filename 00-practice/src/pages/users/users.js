@@ -1,36 +1,51 @@
-import { useSelector } from 'react-redux'
-import { usersSelector } from '../../selectors'
-import { Icon } from '../../components'
-import styled from 'styled-components'
+import { useState, useEffect } from 'react';
+import { useServerRequest } from '../../hooks';
+import { UserRow, TableRow } from './components';
+import { Content } from '../../components';
+import { ROLE } from '../../const';
+import styled from 'styled-components';
 
 const UsersContainer = ({ className }) => {
-  //const users = useSelector(usersSelector)
-  const users = []
-  console.log(users)
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [roles, setRoles] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  const requestServer = useServerRequest();
+
+  useEffect(() => {
+    Promise.all([requestServer('fetchRoles'), requestServer('fetchUsers')]).then(([rolesRes, usersRes]) => {
+      if (rolesRes.error || usersRes.error) {
+        setErrorMessage(rolesRes.error || usersRes.error);
+        return;
+      }
+      setRoles(rolesRes.res);
+      setUsers(usersRes.res);
+    });
+  }, [requestServer]);
+
   return (
     <div className={className}>
-      <h2>Пользователи</h2>
-      <div>
-        <div className="table-header">
-          <div className="login-column">Логин</div>
-          <div className="registered-at-column">Дата регистрации</div>
-          <div className="role-column">Роль</div>
-        </div>
-        {users.map(({ id, login, registeredAt, roleId }) => {
-          return (
-            <div className="table-row">
-              <div className="user-data">
-                <div className="login-column"></div>
-                <div className="registered-at-column"></div>
-                <div className="role-column"></div>
-              </div>
-              <Icon id="fa-trash-o" />
-            </div>
-          )
-        })}
-      </div>
+      <Content error={errorMessage}>
+        <>
+          <h2>Пользователи</h2>
+          <TableRow>
+            <div className="login-column">Логин</div>
+            <div className="registered-at-column">Дата регистрации</div>
+            <div className="role-column">Роль</div>
+          </TableRow>
+          {users.map(({ id, login, registeredAt, roleId }) => (
+            <UserRow key={id} login={login} registeredAt={registeredAt} roleId={roleId} roles={roles.filter(({ id }) => id !== ROLE.GUEST)} />
+          ))}
+        </>
+      </Content>
     </div>
-  )
-}
+  );
+};
 
-export const Users = styled(UsersContainer)``
+export const Users = styled(UsersContainer)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 570px;
+  margin: 0 auto;
+`;

@@ -9,5 +9,6 @@ const IconContainer = ({ className, id }) => (
 export const Icon = styled(IconContainer)`
   font-size: ${({ size = '20px' }) => size};
   margin: ${({ margin = 0 }) => margin};
-  cursor: pointer;
+  color: ${({ disabled }) => (disabled ? '#ccc' : '#000')};
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
 `;

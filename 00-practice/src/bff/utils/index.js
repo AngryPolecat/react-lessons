@@ -1,2 +1,1 @@
-export * from './generate-date'
-export * from './check-access'
+export * from './generate-date';
