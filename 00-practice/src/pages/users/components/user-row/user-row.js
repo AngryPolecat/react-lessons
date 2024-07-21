@@ -1,18 +1,31 @@
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { Icon } from '../../../../components';
 import { TableRow } from '../table-row/table-row';
+import { useServerRequest } from '../../../../hooks';
 import styled from 'styled-components';
 
-const UserRowContainer = ({ className, login, registeredAt, roleId: userRoleId, roles }) => {
+const IconButton = styled.div`
+  cursor: pointer;
+`;
+
+const UserRowContainer = ({ className, id: userId, login, registeredAt, roleId: userRoleId, roles, onRemoveUser }) => {
   const [selectedRole, setSelectedRole] = useState(userRoleId);
-  const dispatch = useDispatch();
+  const [initialRoleId, setInitialRoleId] = useState(userRoleId);
+  const requestServer = useServerRequest();
+  //const dispatch = useDispatch();
 
   const handlerChangeRole = ({ target }) => {
     setSelectedRole(Number(target.value));
   };
 
-  const isSaveButtonDisabled = selectedRole === userRoleId;
+  const handlerSaveUserRole = (userId, newUserRoleId) => {
+    requestServer('updateUserRole', userId, newUserRoleId).then(() => {
+      setInitialRoleId(selectedRole);
+    });
+  };
+
+  const isSaveButtonDisabled = selectedRole === initialRoleId;
 
   return (
     <div className={className}>
@@ -27,10 +40,14 @@ const UserRowContainer = ({ className, login, registeredAt, roleId: userRoleId, 
               </option>
             ))}
           </select>
-          <Icon id="fa-floppy-o" onClick={() => dispatch(/* TODO*/)} margin="0 0 0 10px" disabled={isSaveButtonDisabled} />
+          <IconButton onClick={() => handlerSaveUserRole(userId, selectedRole)}>
+            <Icon id="fa-floppy-o" margin="0 0 0 10px" disabled={isSaveButtonDisabled} />
+          </IconButton>
         </div>
       </TableRow>
-      <Icon id="fa-trash-o" onClick={() => dispatch(/* TODO*/)} margin="11px 0 0 10px" />
+      <IconButton onClick={onRemoveUser}>
+        <Icon id="fa-trash-o" margin="11px 0 0 10px" />
+      </IconButton>
     </div>
   );
 };

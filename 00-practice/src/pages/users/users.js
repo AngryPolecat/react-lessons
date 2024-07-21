@@ -9,6 +9,7 @@ const UsersContainer = ({ className }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [roles, setRoles] = useState([]);
   const [users, setUsers] = useState([]);
+  const [shouldUpdateUserList, setShouldUpdateUserList] = useState(false);
 
   const requestServer = useServerRequest();
 
@@ -21,7 +22,13 @@ const UsersContainer = ({ className }) => {
       setRoles(rolesRes.res);
       setUsers(usersRes.res);
     });
-  }, [requestServer]);
+  }, [requestServer, shouldUpdateUserList]);
+
+  const handlerRemoveUser = (userId) => {
+    requestServer('removeUser', userId).then(() => {
+      setShouldUpdateUserList(!shouldUpdateUserList);
+    });
+  };
 
   return (
     <div className={className}>
@@ -34,7 +41,7 @@ const UsersContainer = ({ className }) => {
             <div className="role-column">Роль</div>
           </TableRow>
           {users.map(({ id, login, registeredAt, roleId }) => (
-            <UserRow key={id} login={login} registeredAt={registeredAt} roleId={roleId} roles={roles.filter(({ id }) => id !== ROLE.GUEST)} />
+            <UserRow key={id} id={id} login={login} registeredAt={registeredAt} roleId={roleId} roles={roles.filter(({ id }) => id !== ROLE.GUEST)} onRemoveUser={() => handlerRemoveUser(id)} />
           ))}
         </>
       </Content>
