@@ -1,7 +1,7 @@
-import { Routes, Route } from 'react-router-dom'
-import { Header, Footer } from './components'
-import { Authorization, Registration, Users, Post } from './pages'
-import styled from 'styled-components'
+import { Routes, Route } from 'react-router-dom';
+import { Header, Footer } from './components';
+import { Authorization, Registration, Users, Post } from './pages';
+import styled from 'styled-components';
 
 const AppColumn = styled.div`
   display: flex;
@@ -11,12 +11,12 @@ const AppColumn = styled.div`
   min-height: 100%;
   background-color: #fff;
   margin: 0 auto;
-`
+`;
 
 const Page = styled.div`
   text-align: center;
   margin-top: 120px;
-`
+`;
 
 export const Blog = () => {
   return (
@@ -35,5 +35,5 @@ export const Blog = () => {
       </Page>
       <Footer />
     </AppColumn>
-  )
-}
+  );
+};
