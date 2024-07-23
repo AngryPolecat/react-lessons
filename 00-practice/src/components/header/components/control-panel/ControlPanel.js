@@ -1,31 +1,36 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Icon, Button } from '../../../../components';
-import { loginSelector, roleSelector, sessionSelector } from '../../../../selectors';
-import { ROLE } from '../../../../const';
-import { logout } from '../../../../actions';
-import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Icon, Button } from '../../../../components'
+import { loginSelector, roleSelector, sessionSelector } from '../../../../selectors'
+import { ROLE } from '../../../../const'
+import { logout } from '../../../../actions'
+import styled from 'styled-components'
 
 const RightAligned = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
+`
 
 const IconButton = styled.div`
   cursor: pointer;
-`;
+`
 
 const Login = styled.div`
   margin-top: 2px;
   font-weight: bold;
-`;
+`
 
 const ControlPanelContainer = ({ className }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const login = useSelector(loginSelector);
-  const role = useSelector(roleSelector);
-  const session = useSelector(sessionSelector);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const login = useSelector(loginSelector)
+  const role = useSelector(roleSelector)
+  const session = useSelector(sessionSelector)
+
+  const handlerLogout = () => {
+    dispatch(logout(session))
+    sessionStorage.removeItem('userData')
+  }
 
   return (
     <div className={className}>
@@ -37,7 +42,7 @@ const ControlPanelContainer = ({ className }) => {
         ) : (
           <>
             <Login>{login}</Login>
-            <IconButton onClick={() => dispatch(logout(session))}>
+            <IconButton onClick={handlerLogout}>
               <Icon id="fa-sign-out" size="20px" margin="0 0 0 20px" />
             </IconButton>
           </>
@@ -55,9 +60,9 @@ const ControlPanelContainer = ({ className }) => {
         </Link>
       </RightAligned>
     </div>
-  );
-};
+  )
+}
 
 export const ControlPanel = styled(ControlPanelContainer)`
   margin-top: 10px;
-`;
+`

@@ -1,18 +1,18 @@
-import { Icon } from '../../../../components';
-import styled from 'styled-components';
+import { Icon } from '../../../../components'
+import styled from 'styled-components'
 
 const Img = styled.img`
   float: left;
   margin: 0 20px 20px 0;
-`;
+`
 
 const Content = styled.div`
   text-align: left;
-`;
+`
 
 const H2 = styled.h2`
   margin-top: 0;
-`;
+`
 
 const PostContentContainer = ({ className, post: { id, title, content, imageUrl, publishedAt } }) => {
   return (
@@ -31,11 +31,11 @@ const PostContentContainer = ({ className, post: { id, title, content, imageUrl,
       </div>
       <Content>{content}</Content>
     </div>
-  );
-};
+  )
+}
 
 export const PostContent = styled(PostContentContainer)`
-  padding: 40px 80px 140px 80px;
+  padding: 40px 80px 20px 80px;
 
   & > div,
   h2 {
@@ -54,4 +54,4 @@ export const PostContent = styled(PostContentContainer)`
     display: flex;
     flex-direction: row;
   }
-`;
+`

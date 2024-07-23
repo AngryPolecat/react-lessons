@@ -1,4 +1,4 @@
-import { ACTION_TYPE } from '../actions';
+import { ACTION_TYPE } from '../actions'
 
 const initialPostState = {
   id: null,
@@ -6,8 +6,15 @@ const initialPostState = {
   imageUrl: null,
   content: null,
   publishedAt: null,
-  comments: [],
-};
+  comments: [
+    {
+      id: 1,
+      author: 'Youhu',
+      publishedAt: '2050-01-01',
+      content: 'Хорошая статья',
+    },
+  ],
+}
 
 export const postReducer = (state = initialPostState, action) => {
   switch (action.type) {
@@ -15,8 +22,8 @@ export const postReducer = (state = initialPostState, action) => {
       return {
         ...state,
         ...action.payload,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
