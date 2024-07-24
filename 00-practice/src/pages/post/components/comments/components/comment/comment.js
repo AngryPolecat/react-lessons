@@ -1,14 +1,14 @@
 import { Icon } from '../../../../../../components'
 import styled from 'styled-components'
 
-const CommentContainer = ({ className, id, author, content, publishedAt }) => {
+const CommentContainer = ({ className, id, authorId, content, publishedAt }) => {
   return (
     <div className={className}>
       <div className="comment">
         <div className="information-panel">
           <div className="author">
             <Icon id="fa-user-circle-o" margin="0 10px 0 0" size="16px" />
-            {author}
+            {authorId}
           </div>
           <div className="published-at">
             <Icon id="fa-calendar" margin="0 10px 0 0" size="16px" />

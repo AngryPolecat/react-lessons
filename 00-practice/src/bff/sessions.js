@@ -8,9 +8,12 @@ export const sessions = {
   remove(hash) {
     delete this.list[hash]
   },
+  update(hash, user) {
+    this.list[hash] = user
+  },
   access(hash, accessRole) {
     const user = this.list[hash] || {}
-    console.log(this.list)
+
     return !!user && accessRole.includes(user.roleId)
   },
 }

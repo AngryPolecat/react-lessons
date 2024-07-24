@@ -6,14 +6,7 @@ const initialPostState = {
   imageUrl: null,
   content: null,
   publishedAt: null,
-  comments: [
-    {
-      id: 1,
-      author: 'Youhu',
-      publishedAt: '2050-01-01',
-      content: 'Хорошая статья',
-    },
-  ],
+  comments: [],
 }
 
 export const postReducer = (state = initialPostState, action) => {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Icon } from '../../../../components'
 import { Comment } from './components'
 import { useDispatch, useSelector } from 'react-redux'
-import { idUserSelector } from '../../../../selectors'
+import { idUserSelector, roleSelector } from '../../../../selectors'
 import { addCommentAsync } from '../../../../actions'
 import { useServerRequest } from '../../../../hooks'
 import styled from 'styled-components'
@@ -19,6 +19,7 @@ const IconButton = styled.div`
 
 const CommentsContainer = ({ className, comments, idPost }) => {
   const idUser = useSelector(idUserSelector)
+  const role = useSelector(roleSelector)
   const [newComment, setNewComment] = useState('')
   const dispatch = useDispatch()
   const requestServer = useServerRequest()
@@ -28,7 +29,6 @@ const CommentsContainer = ({ className, comments, idPost }) => {
   }
 
   const handlerAddComment = () => {
-    //console.log(idPost, idUser, newComment)
     dispatch(addCommentAsync(requestServer, idUser, idPost, newComment))
   }
 
@@ -41,8 +41,8 @@ const CommentsContainer = ({ className, comments, idPost }) => {
         </IconButton>
       </div>
       <div className="container-comments">
-        {comments.map(({ id, author, publishedAt, content }) => (
-          <Comment key={id} id={id} author={author} publishedAt={publishedAt} content={content} />
+        {comments.map(({ id, authorId, publishedAt, content }) => (
+          <Comment key={id} id={id} authorId={authorId} publishedAt={publishedAt} content={content} />
         ))}
       </div>
     </div>

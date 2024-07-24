@@ -1,24 +1,25 @@
-import { getPost, addComment } from '../api'
-//import { ROLE } from '../const'
-//import { sessions } from '../sessions'
+import { getPost, addComment, getComments } from '../api'
+import { ROLE } from '../const'
+import { sessions } from '../sessions'
 
 export const addPostComment = async (userSession, userId, postId, content) => {
-  // const accessRole = [ROLE.ADMIN, ROLE.MODERATOR, ROLE.READER]
+  const accessRole = [ROLE.ADMIN, ROLE.MODERATOR, ROLE.READER]
 
-  // if (!sessions.access(userSession, accessRole)) {
-  //   return {
-  //     error: 'Доступ запрещен',
-  //     res: null,
-  //   }
-  // }
+  if (!sessions.access(userSession, accessRole)) {
+    return {
+      error: 'Доступ запрещен',
+      res: null,
+    }
+  }
 
-  /** где то здесь к апи на добавление комментария */
   await addComment(userId, postId, content)
 
   const post = await getPost(postId)
-  console.log(post)
+
+  const comments = await getComments(postId)
+
   return {
     error: null,
-    res: post,
+    res: { ...post, comments },
   }
 }

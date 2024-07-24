@@ -98,6 +98,20 @@
       "post_id": "1",
       "content": "Текст комментария",
       "published_at": "2024-01-01"
+    },
+    {
+      "author_id": "TgJU6lD",
+      "post_id": "1",
+      "published_at": "2059-07-17 10:50",
+      "content": "Мой первый комментарий",
+      "id": "plmqZGO"
+    },
+    {
+      "author_id": "TgJU6lD",
+      "post_id": "2",
+      "published_at": "2058-10-11 17:13",
+      "content": "Первый комментарий",
+      "id": "VYF-4Ni"
     }
   ]
 }
