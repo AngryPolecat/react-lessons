@@ -112,6 +112,41 @@
       "published_at": "2058-10-11 17:13",
       "content": "Первый комментарий",
       "id": "VYF-4Ni"
+    },
+    {
+      "author_id": "002",
+      "post_id": "1",
+      "published_at": "2034-09-19 09:11",
+      "content": "Новый комментарий",
+      "id": "G7CtMSw"
+    },
+    {
+      "author_id": "002",
+      "post_id": "1",
+      "published_at": "2040-07-25 16:42",
+      "content": "Еще комментарий",
+      "id": "weIs0Jc"
+    },
+    {
+      "author_id": "002",
+      "post_id": "1",
+      "published_at": "2042-04-17 16:25",
+      "content": "Автор мудак",
+      "id": "9FgP057"
+    },
+    {
+      "author_id": "TgJU6lD",
+      "post_id": "1",
+      "published_at": "2061-05-07 18:08",
+      "content": "Сам мудак",
+      "id": "3tBkly5"
+    },
+    {
+      "author_id": "TgJU6lD",
+      "post_id": "2",
+      "published_at": "2045-08-09 05:23",
+      "content": "Второй комментарий",
+      "id": "h6jJiXv"
     }
   ]
 }

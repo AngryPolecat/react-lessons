@@ -1,8 +1,8 @@
 import { URL } from '../../config';
 import { postTransformer } from '../transformers';
 
-export const getPost = (idPost) =>
-  fetch(`${URL}/posts/${idPost}`)
+export const getPost = (postId) =>
+  fetch(`${URL}/posts/${postId}`)
     .then((response) => response.json())
     .then((post) => {
       return post && postTransformer(post);

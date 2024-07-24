@@ -1,7 +1,7 @@
-import { commentTransformer } from '../transformers'
-import { URL } from '../../config'
+import { commentTransformer } from '../transformers';
+import { URL } from '../../config';
 
-export const getComments = (idPost) =>
-  fetch(`${URL}/comments?post_id=${idPost}`)
+export const getComments = (postId) =>
+  fetch(`${URL}/comments?post_id=${postId}`)
     .then((response) => response.json())
-    .then((loadComments) => loadComments && loadComments.map(commentTransformer))
+    .then((loadComments) => loadComments && loadComments.map(commentTransformer));

@@ -1,14 +1,37 @@
-import { Icon } from '../../../../../../components'
-import styled from 'styled-components'
+import { useDispatch } from 'react-redux';
+import { Icon } from '../../../../../../components';
+import { useServerRequest } from '../../../../../../hooks';
+import { CLOSE_MODAL, openModal, removeCommentAsync } from '../../../../../../actions';
+import styled from 'styled-components';
 
-const CommentContainer = ({ className, id, authorId, content, publishedAt }) => {
+const IconButton = styled.div`
+  cursor: pointer;
+`;
+
+const CommentContainer = ({ className, id, author, content, publishedAt, postId }) => {
+  const requestServer = useServerRequest();
+  const dispatch = useDispatch();
+
+  const handlerRemoveComment = (commentId) => {
+    dispatch(
+      openModal({
+        text: 'Удалить комментарий?',
+        onConfirm: () => {
+          dispatch(removeCommentAsync(requestServer, commentId, postId));
+          dispatch(CLOSE_MODAL);
+        },
+        onCancel: () => dispatch(CLOSE_MODAL),
+      })
+    );
+  };
+
   return (
     <div className={className}>
       <div className="comment">
         <div className="information-panel">
           <div className="author">
             <Icon id="fa-user-circle-o" margin="0 10px 0 0" size="16px" />
-            {authorId}
+            {author}
           </div>
           <div className="published-at">
             <Icon id="fa-calendar" margin="0 10px 0 0" size="16px" />
@@ -17,10 +40,12 @@ const CommentContainer = ({ className, id, authorId, content, publishedAt }) => 
         </div>
         <div className="content-data">{content}</div>
       </div>
-      <Icon id="fa-trash" margin="0 0 0 10px" size="20px" />
+      <IconButton onClick={() => handlerRemoveComment(id)}>
+        <Icon id="fa-trash" margin="0 0 0 10px" size="20px" />
+      </IconButton>
     </div>
-  )
-}
+  );
+};
 
 export const Comment = styled(CommentContainer)`
   display: flex;
@@ -53,4 +78,4 @@ export const Comment = styled(CommentContainer)`
   & .content-data {
     text-align: left;
   }
-`
+`;
