@@ -1,29 +1,25 @@
-import { useDispatch } from 'react-redux';
-import { Icon } from '../../../../../../components';
-import { useServerRequest } from '../../../../../../hooks';
-import { CLOSE_MODAL, openModal, removeCommentAsync } from '../../../../../../actions';
-import styled from 'styled-components';
-
-const IconButton = styled.div`
-  cursor: pointer;
-`;
+import { useDispatch } from 'react-redux'
+import { Icon } from '../../../../../../components'
+import { useServerRequest } from '../../../../../../hooks'
+import { CLOSE_MODAL, openModal, removeCommentAsync } from '../../../../../../actions'
+import styled from 'styled-components'
 
 const CommentContainer = ({ className, id, author, content, publishedAt, postId }) => {
-  const requestServer = useServerRequest();
-  const dispatch = useDispatch();
+  const requestServer = useServerRequest()
+  const dispatch = useDispatch()
 
   const handlerRemoveComment = (commentId) => {
     dispatch(
       openModal({
         text: 'Удалить комментарий?',
         onConfirm: () => {
-          dispatch(removeCommentAsync(requestServer, commentId, postId));
-          dispatch(CLOSE_MODAL);
+          dispatch(removeCommentAsync(requestServer, commentId, postId))
+          dispatch(CLOSE_MODAL)
         },
         onCancel: () => dispatch(CLOSE_MODAL),
       })
-    );
-  };
+    )
+  }
 
   return (
     <div className={className}>
@@ -40,12 +36,10 @@ const CommentContainer = ({ className, id, author, content, publishedAt, postId 
         </div>
         <div className="content-data">{content}</div>
       </div>
-      <IconButton onClick={() => handlerRemoveComment(id)}>
-        <Icon id="fa-trash" margin="0 0 0 10px" size="20px" />
-      </IconButton>
+      <Icon id="fa-trash" margin="0 0 0 10px" size="20px" onClick={() => handlerRemoveComment(id)} />
     </div>
-  );
-};
+  )
+}
 
 export const Comment = styled(CommentContainer)`
   display: flex;
@@ -78,4 +72,4 @@ export const Comment = styled(CommentContainer)`
   & .content-data {
     text-align: left;
   }
-`;
+`
