@@ -7,7 +7,7 @@ export const useServerRequest = (operation, ...params) => {
   const session = useSelector(sessionSelector);
   return useCallback(
     (operation, ...params) => {
-      const request = ['register', 'authorize', 'fetchPost'].includes(operation) ? params : [session, ...params];
+      const request = ['register', 'authorize', 'fetchPost', 'fetchPosts'].includes(operation) ? params : [session, ...params];
 
       return server[operation](...request);
     },
