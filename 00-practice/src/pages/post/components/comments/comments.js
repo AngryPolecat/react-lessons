@@ -15,6 +15,7 @@ const NewComment = styled.textarea`
 
 const CommentsContainer = ({ className, comments, postId }) => {
   const userId = useSelector(idUserSelector)
+  /** деактивировать кнопку добавления комментарий если не залогинен */
   const role = useSelector(roleSelector)
   const [newComment, setNewComment] = useState('')
   const dispatch = useDispatch()
@@ -25,6 +26,7 @@ const CommentsContainer = ({ className, comments, postId }) => {
   }
 
   const handlerAddComment = () => {
+    /** комментарий добавляется даже после разлогирования, но только 1 раз */
     dispatch(addCommentAsync(requestServer, userId, postId, newComment))
     setNewComment('')
   }

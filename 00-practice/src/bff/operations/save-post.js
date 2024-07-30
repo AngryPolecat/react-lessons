@@ -1,6 +1,6 @@
 import { ROLE } from '../const'
 import { sessions } from '../sessions'
-import { updatePost } from '../api'
+import { updatePost, createPost } from '../api'
 
 export const savePost = async (userSession, dataPost) => {
   const accessRole = [ROLE.ADMIN]
@@ -12,10 +12,10 @@ export const savePost = async (userSession, dataPost) => {
     }
   }
 
-  const updatedPost = await updatePost(dataPost)
-
+  const savedPost = dataPost.id ? await updatePost(dataPost) : await createPost(dataPost)
+  console.log('operation: ', savedPost)
   return {
     error: null,
-    res: updatedPost,
+    res: savedPost,
   }
 }

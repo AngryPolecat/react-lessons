@@ -1,10 +1,11 @@
-import { useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Icon, Input } from '../../../../components'
 import { sanitizeContent } from './utils/sanitize-content'
 import { savePostAsync } from '../../../../actions'
 import { useServerRequest } from '../../../../hooks'
 import { useNavigate } from 'react-router-dom'
+import { CLOSE_MODAL, openModal, removePostAsync } from '../../../../actions'
 import styled from 'styled-components'
 
 const Content = styled.div`
@@ -20,35 +21,54 @@ const Content = styled.div`
 `
 
 const PostFormContainer = ({ className, post: { id, title, content, imageUrl, publishedAt } }) => {
-  const imageRef = useRef()
-  const titleRef = useRef()
+  const [imageUrlValue, setImageUrlValue] = useState(imageUrl)
+  const [titleValue, setTitleValue] = useState(title)
   const contentRef = useRef()
   const dispatch = useDispatch()
   const requestServer = useServerRequest()
   const navigate = useNavigate()
 
-  const handlerSavePost = (postId) => {
-    const newImageUrl = imageRef.current.value
-    const newTitlePost = titleRef.current.value
-    const newContentPost = sanitizeContent(contentRef.current.innerHTML)
+  useLayoutEffect(() => {
+    setImageUrlValue(imageUrl)
+    setTitleValue(title)
+  }, [imageUrl, title])
 
-    dispatch(savePostAsync(requestServer, { id: postId, imageUrl: newImageUrl, title: newTitlePost, content: newContentPost })).then(() => navigate(`/post/${postId}`))
+  const handlerRemovePost = (postId) => {
+    dispatch(
+      openModal({
+        text: 'Удалить статью?',
+        onConfirm: () => {
+          dispatch(removePostAsync(requestServer, postId)).then(() => navigate('/'))
+          dispatch(CLOSE_MODAL)
+        },
+        onCancel: () => dispatch(CLOSE_MODAL),
+      })
+    )
   }
+
+  const handlerSavePost = (postId) => {
+    const newContentPost = sanitizeContent(contentRef.current.innerHTML)
+    dispatch(savePostAsync(requestServer, { id: postId, imageUrl: imageUrlValue, title: titleValue, content: newContentPost })).then(({ id }) => navigate(`/post/${id}`))
+  }
+
+  const handlerChangeImageUrl = ({ target }) => setImageUrlValue(target.value)
+
+  const handlerChangeTitle = ({ target }) => setTitleValue(target.value)
 
   return (
     <div className={className}>
       <div className="special-panel">
         <div className="published-at">
-          <Icon id="fa-calendar" margin="0 10px 0 1px" size="15px" />
+          {publishedAt && <Icon id="fa-calendar" margin="0 10px 0 1px" size="15px" />}
           <div>{publishedAt}</div>
         </div>
         <div className="buttons-panel">
-          <Icon id="fa-floppy-o" margin="0 10px 0 0" size="20px" onClick={() => handlerSavePost(id)} />
-          <Icon id="fa-trash" margin="0 10px 0 0" size="20px" />
+          <Icon id="fa-floppy-o" margin="0 0 0 0" size="20px" onClick={() => handlerSavePost(id)} />
+          {publishedAt && <Icon id="fa-trash" margin="0 0 0 10px" size="20px" onClick={() => handlerRemovePost(id)} />}
         </div>
       </div>
-      <Input defaultValue={imageUrl} size="15px" ref={imageRef} />
-      <Input defaultValue={title} size="15px" ref={titleRef} />
+      <Input value={imageUrlValue} size="15px" placeholder="URL картинки" onChange={handlerChangeImageUrl} />
+      <Input value={titleValue} size="15px" placeholder="Заголовок статьи" onChange={handlerChangeTitle} />
       <Content contentEditable={true} suppressContentEditableWarning={true} ref={contentRef}>
         {content}
       </Content>
