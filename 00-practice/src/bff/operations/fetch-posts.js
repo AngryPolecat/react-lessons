@@ -1,8 +1,8 @@
-import { getPosts, getComments } from '../api';
-import { getCountComments } from '../utils';
+import { getPosts, getComments } from '../api'
+import { getCountComments } from '../utils'
 
-export const fetchPosts = async () => {
-  const [posts, comments] = await Promise.all([getPosts(), getComments()]);
+export const fetchPosts = async (page, limit) => {
+  const [posts, comments] = await Promise.all([getPosts(page, limit), getComments()])
 
   return {
     error: null,
@@ -10,7 +10,7 @@ export const fetchPosts = async () => {
       return {
         ...post,
         commentsCount: getCountComments(comments, post.id),
-      };
+      }
     }),
-  };
-};
+  }
+}

@@ -47,6 +47,7 @@ const PostFormContainer = ({ className, post: { id, title, content, imageUrl, pu
   }
 
   const handlerSavePost = (postId) => {
+    /** если не залогинен, то ошибка при сохранении TO DO */
     const newContentPost = sanitizeContent(contentRef.current.innerHTML)
     dispatch(savePostAsync(requestServer, { id: postId, imageUrl: imageUrlValue, title: titleValue, content: newContentPost })).then(({ id }) => navigate(`/post/${id}`))
   }
