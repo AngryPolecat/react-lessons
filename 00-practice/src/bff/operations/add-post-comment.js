@@ -1,5 +1,5 @@
 import { getPost, addComment, getComments, getUsers } from '../api';
-import { ROLE } from '../const';
+import { ROLE, ERROR } from '../const';
 import { sessions } from '../sessions';
 
 export const addPostComment = async (userSession, userId, postId, content) => {
@@ -7,7 +7,7 @@ export const addPostComment = async (userSession, userId, postId, content) => {
 
   if (!sessions.access(userSession, accessRole)) {
     return {
-      error: 'Доступ запрещен',
+      error: ERROR.ACCESS_DENIED,
       res: null,
     };
   }

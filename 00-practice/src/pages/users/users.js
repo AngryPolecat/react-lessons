@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useServerRequest } from '../../hooks';
 import { UserRow, TableRow } from './components';
-import { Content } from '../../components';
+import { PrivateContent } from '../../components';
 import { ROLE } from '../../const';
 import styled from 'styled-components';
 
@@ -32,7 +32,7 @@ const UsersContainer = ({ className }) => {
 
   return (
     <div className={className}>
-      <Content error={errorMessage}>
+      <PrivateContent serverError={errorMessage} access={[ROLE.ADMIN]}>
         <>
           <h2>Пользователи</h2>
           <TableRow>
@@ -44,7 +44,7 @@ const UsersContainer = ({ className }) => {
             <UserRow key={id} id={id} login={login} registeredAt={registeredAt} roleId={roleId} roles={roles.filter(({ id }) => id !== ROLE.GUEST)} onRemoveUser={() => handlerRemoveUser(id)} />
           ))}
         </>
-      </Content>
+      </PrivateContent>
     </div>
   );
 };

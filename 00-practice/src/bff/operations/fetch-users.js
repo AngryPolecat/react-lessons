@@ -1,5 +1,5 @@
 import { getUsers } from '../api';
-import { ROLE } from '../const';
+import { ROLE, ERROR } from '../const';
 import { sessions } from '../sessions';
 
 export const fetchUsers = async (userSession) => {
@@ -7,7 +7,7 @@ export const fetchUsers = async (userSession) => {
 
   if (!sessions.access(userSession, accessRole)) {
     return {
-      error: 'Доступ запрещен',
+      error: ERROR.ACCESS_DENIED,
       res: null,
     };
   }

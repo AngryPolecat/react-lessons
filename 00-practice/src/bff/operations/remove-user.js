@@ -1,4 +1,4 @@
-import { ROLE } from '../const';
+import { ROLE, ERROR } from '../const';
 import { sessions } from '../sessions';
 import { deleteUser } from '../api';
 
@@ -7,7 +7,7 @@ export const removeUser = async (userSession, userId) => {
 
   if (!sessions.access(userSession, accessRole)) {
     return {
-      error: 'Доступ запрещен',
+      error: ERROR.ACCESS_DENIED,
       res: null,
     };
   }

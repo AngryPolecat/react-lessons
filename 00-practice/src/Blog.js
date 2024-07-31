@@ -1,11 +1,12 @@
-import { Routes, Route } from 'react-router-dom'
-import { useLayoutEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { Header, Footer, Modal } from './components'
-import { Authorization, Registration, Users, Post, Main } from './pages'
-import { setUser } from './actions'
-import { useServerRequest } from './hooks'
-import styled from 'styled-components'
+import { Routes, Route } from 'react-router-dom';
+import { useLayoutEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Header, Footer, Modal, Error } from './components';
+import { Authorization, Registration, Users, Post, Main } from './pages';
+import { setUser } from './actions';
+import { useServerRequest } from './hooks';
+import { ERROR } from './const';
+import styled from 'styled-components';
 
 const AppColumn = styled.div`
   display: flex;
@@ -15,29 +16,29 @@ const AppColumn = styled.div`
   min-height: 100%;
   background-color: #fff;
   margin: 0 auto;
-`
+`;
 
 const Page = styled.div`
   text-align: center;
   margin-top: 120px;
-`
+`;
 
 export const Blog = () => {
-  const dispatch = useDispatch()
-  const requestServer = useServerRequest()
+  const dispatch = useDispatch();
+  const requestServer = useServerRequest();
 
   useLayoutEffect(() => {
-    const currentUserDataJSON = sessionStorage.getItem('userData')
+    const currentUserDataJSON = sessionStorage.getItem('userData');
 
     if (!currentUserDataJSON) {
-      return
+      return;
     }
 
-    const currentUserData = JSON.parse(currentUserDataJSON)
+    const currentUserData = JSON.parse(currentUserDataJSON);
 
-    dispatch(setUser({ ...currentUserData, roleId: Number(currentUserData.roleId) }))
-    requestServer('updateSession', { ...currentUserData, roleId: Number(currentUserData.roleId) })
-  }, [dispatch, requestServer])
+    dispatch(setUser({ ...currentUserData, roleId: Number(currentUserData.roleId) }));
+    requestServer('updateSession', { ...currentUserData, roleId: Number(currentUserData.roleId) });
+  }, [dispatch, requestServer]);
 
   return (
     <AppColumn>
@@ -51,11 +52,11 @@ export const Blog = () => {
           <Route path="/post/:postId" element={<Post />} />
           <Route path="/post/:postId/edit" element={<Post />} />
           <Route path="/users" element={<Users />} />
-          <Route path="*" element={<div>Ошибка</div>} />
+          <Route path="*" element={<Error error={ERROR.PAGE_NOT_EXIST} />} />
         </Routes>
       </Page>
       <Footer />
       <Modal />
     </AppColumn>
-  )
-}
+  );
+};

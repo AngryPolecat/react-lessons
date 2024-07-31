@@ -1,7 +1,15 @@
 import { getPost, getComments, getUsers } from '../api';
 
 export const fetchPost = async (postId) => {
-  const post = await getPost(postId);
+  let post;
+  try {
+    post = await getPost(postId);
+  } catch (error) {
+    return {
+      error,
+      res: null,
+    };
+  }
 
   const comments = await getComments(postId);
 

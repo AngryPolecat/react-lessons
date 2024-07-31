@@ -1,43 +1,62 @@
-import { useParams, useMatch } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useLayoutEffect } from 'react'
-import { PostContent, Comments, PostForm } from './components'
-import { useServerRequest } from '../../hooks'
-import { loadPostAsync, RESET_POST } from '../../actions'
-import { postSelector } from '../../selectors'
-import styled from 'styled-components'
+import { useParams, useMatch, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { PostContent, Comments, PostForm } from './components';
+import { useServerRequest } from '../../hooks';
+import { loadPostAsync, RESET_POST } from '../../actions';
+import { postSelector } from '../../selectors';
+import { Error, PrivateContent } from '../../components';
+import { ROLE } from '../../const';
+import styled from 'styled-components';
 
 const PostContainer = ({ className }) => {
-  const params = useParams()
-  const isEditing = useMatch('/post/:id/edit')
-  const isCreating = useMatch('/post')
-  const dispatch = useDispatch()
-  const post = useSelector(postSelector)
-  const requestServer = useServerRequest()
+  const params = useParams();
+  const isEditing = useMatch('/post/:id/edit');
+  const isCreating = useMatch('/post');
+  const dispatch = useDispatch();
+  const post = useSelector(postSelector);
+  const requestServer = useServerRequest();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
-    dispatch(RESET_POST)
-  }, [dispatch, isCreating])
+    dispatch(RESET_POST);
+  }, [dispatch, isCreating]);
 
   useEffect(() => {
     if (isCreating) {
-      return
+      setIsLoading(false);
+      return;
     }
-    dispatch(loadPostAsync(requestServer, params.postId))
-  }, [dispatch, requestServer, params.postId, isCreating])
+    dispatch(loadPostAsync(requestServer, params.postId)).then((response) => {
+      setError(response.error);
+      setIsLoading(false);
+    });
+  }, [dispatch, requestServer, params.postId, isCreating, navigate]);
 
-  return (
+  if (isLoading) {
+    return null;
+  }
+
+  return error ? (
+    <Error error={error} />
+  ) : !isEditing && !isCreating ? (
     <div className={className}>
-      {!isEditing && !isCreating ? (
-        <>
-          <PostContent post={post} />
-          <Comments comments={post.comments} postId={post.id} />
-        </>
-      ) : (
-        <PostForm post={post} />
-      )}
+      <PostContent post={post} />
+      <Comments comments={post.comments} postId={post.id} />
     </div>
-  )
-}
+  ) : (
+    <PrivateContent access={[ROLE.ADMIN]}>
+      <div className={className}>
+        <PostForm post={post} />
+      </div>
+    </PrivateContent>
+  );
+};
 
-export const Post = styled(PostContainer)``
+export const Post = styled(PostContainer)`
+  & .error {
+    margin: 20px;
+  }
+`;
