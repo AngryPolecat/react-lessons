@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { PostCard, Pagination } from './components'
-import { Input, Icon } from '../../components'
+import debounce from 'lodash/debounce'
+import { useEffect, useState, useCallback } from 'react'
+import { PostCard, Pagination, Search } from './components'
 import { useServerRequest } from '../../hooks'
 import { PAGINATION_LIMIT } from '../../const'
 import styled from 'styled-components'
@@ -9,26 +9,38 @@ const MainContainer = ({ className }) => {
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(1)
   const [lastPage, setLastPage] = useState(1)
+  const [searchPhrase, setSearchPhrase] = useState('')
+  const [shouldSearch, setShouldSearch] = useState(false)
   const requestServer = useServerRequest()
 
   useEffect(() => {
-    requestServer('fetchPosts', page, PAGINATION_LIMIT).then((posts) => {
+    requestServer('fetchPosts', searchPhrase, page, PAGINATION_LIMIT).then((posts) => {
       setPosts(posts.res)
-      setLastPage(1)
+      setLastPage(!posts.countPosts % PAGINATION_LIMIT ? Math.floor(posts.countPosts / PAGINATION_LIMIT) : Math.floor(posts.countPosts / PAGINATION_LIMIT) + 1)
     })
-  }, [requestServer, page])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestServer, page, shouldSearch])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceSearch = useCallback(debounce(setShouldSearch, 1000), [])
+
+  const handlerChangeSearch = ({ target }) => {
+    setSearchPhrase(target.value)
+    debounceSearch(!shouldSearch)
+  }
 
   return (
     <div className={className}>
-      <div className="post-search">
-        <Input type="text" size="18px" />
-        <Icon id="fa-search" margin="8px 10px 0 10px" size="25px" />
-      </div>
-      <div className="post-list">
-        {posts.map(({ id, imageUrl, title, publishedAt, commentsCount }) => (
-          <PostCard key={id} id={id} imageUrl={imageUrl} title={title} publishedAt={publishedAt} commentsCount={commentsCount} />
-        ))}
-      </div>
+      <Search onChangeSearchPhrase={handlerChangeSearch} searchPhrase={searchPhrase} />
+      {posts.length ? (
+        <div className="post-list">
+          {posts.map(({ id, imageUrl, title, publishedAt, commentsCount }) => (
+            <PostCard key={id} id={id} imageUrl={imageUrl} title={title} publishedAt={publishedAt} commentsCount={commentsCount} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty-list">Список статей пуст...</div>
+      )}
       <Pagination page={page} setPage={setPage} lastPage={lastPage} />
     </div>
   )
@@ -43,19 +55,7 @@ export const Main = styled(MainContainer)`
     justify-content: flex-start;
   }
 
-  & .post-search {
-    display: flex;
-    width: 500px;
-    margin: 20px auto 0;
-    padding: 5px;
-  }
-
-  & input {
-    width: 100%;
-    border: 0 solid black;
-  }
-
-  & input:focus {
-    border: 0px solid #000;
+  & .empty-list {
+    margin-top: 20px;
   }
 `
