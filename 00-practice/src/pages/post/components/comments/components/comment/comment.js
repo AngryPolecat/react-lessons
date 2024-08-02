@@ -1,12 +1,17 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from '../../../../../../components'
 import { useServerRequest } from '../../../../../../hooks'
 import { CLOSE_MODAL, openModal, removeCommentAsync } from '../../../../../../actions'
+import { checkAccess } from '../../../../../../utils'
+import { ROLE } from '../../../../../../const'
+import { roleSelector } from '../../../../../../selectors'
 import styled from 'styled-components'
 
 const CommentContainer = ({ className, id, author, content, publishedAt, postId }) => {
+  const role = useSelector(roleSelector)
   const requestServer = useServerRequest()
   const dispatch = useDispatch()
+  const hasPermissionsModerator = checkAccess([ROLE.ADMIN, ROLE.MODERATOR], role)
 
   const handlerRemoveComment = (commentId) => {
     dispatch(
@@ -36,7 +41,7 @@ const CommentContainer = ({ className, id, author, content, publishedAt, postId 
         </div>
         <div className="content-data">{content}</div>
       </div>
-      <Icon id="fa-trash" margin="0 0 0 10px" size="20px" onClick={() => handlerRemoveComment(id)} />
+      {hasPermissionsModerator && <Icon id="fa-trash" margin="0 0 0 10px" size="20px" onClick={() => handlerRemoveComment(id)} />}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { Icon, Button } from '../../../../components'
 import { loginSelector, roleSelector, sessionSelector } from '../../../../selectors'
 import { ROLE } from '../../../../const'
 import { logout } from '../../../../actions'
+import { checkAccess } from '../../../../utils'
 import styled from 'styled-components'
 
 const RightAligned = styled.div`
@@ -22,6 +23,7 @@ const ControlPanelContainer = ({ className }) => {
   const login = useSelector(loginSelector)
   const role = useSelector(roleSelector)
   const session = useSelector(sessionSelector)
+  const hasPermissions = checkAccess([ROLE.ADMIN], role)
 
   const handlerLogout = () => {
     dispatch(logout(session))
@@ -44,12 +46,16 @@ const ControlPanelContainer = ({ className }) => {
       </RightAligned>
       <RightAligned>
         <Icon id="fa-backward" size="20px" margin="10px 0 0 20px" onClick={() => navigate(-1)} />
-        <Link to="/post">
-          <Icon id="fa-file-text-o" size="20px" margin="10px 0 0 20px" />
-        </Link>
-        <Link to="/users">
-          <Icon id="fa-users" size="20px" margin="10px 0 0 20px" />
-        </Link>
+        {hasPermissions && (
+          <>
+            <Link to="/post">
+              <Icon id="fa-file-text-o" size="20px" margin="10px 0 0 20px" />
+            </Link>
+            <Link to="/users">
+              <Icon id="fa-users" size="20px" margin="10px 0 0 20px" />
+            </Link>
+          </>
+        )}
       </RightAligned>
     </div>
   )

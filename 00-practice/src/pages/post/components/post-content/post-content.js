@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from '../../../../components'
 import { useServerRequest } from '../../../../hooks'
 import { CLOSE_MODAL, openModal, removePostAsync } from '../../../../actions'
+import { checkAccess } from '../../../../utils'
+import { ROLE } from '../../../../const'
+import { roleSelector } from '../../../../selectors'
 import styled from 'styled-components'
 
 const Img = styled.img`
@@ -19,9 +22,11 @@ const H2 = styled.h2`
 `
 
 const PostContentContainer = ({ className, post: { id, title, content, imageUrl, publishedAt } }) => {
+  const role = useSelector(roleSelector)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const requestServer = useServerRequest()
+  const hasPermissionsAdmin = checkAccess([ROLE.ADMIN], role)
 
   const handlerRemovePost = (postId) => {
     dispatch(
@@ -46,10 +51,12 @@ const PostContentContainer = ({ className, post: { id, title, content, imageUrl,
           <Icon id="fa-calendar" margin="0 10px 0 0" size="15px" />
           <div>{publishedAt}</div>
         </div>
-        <div className="buttons-panel">
-          <Icon id="fa-pencil-square-o" margin="0 10px 0 0" size="22px" onClick={() => navigate(`/post/${id}/edit`)} />
-          <Icon id="fa-trash" margin="0 10px 0 0" size="20px" onClick={() => handlerRemovePost(id)} />
-        </div>
+        {hasPermissionsAdmin && (
+          <div className="buttons-panel">
+            <Icon id="fa-pencil-square-o" margin="0 10px 0 0" size="22px" onClick={() => navigate(`/post/${id}/edit`)} />
+            <Icon id="fa-trash" margin="0 10px 0 0" size="20px" onClick={() => handlerRemovePost(id)} />
+          </div>
+        )}
       </div>
       <Content>{content}</Content>
     </div>

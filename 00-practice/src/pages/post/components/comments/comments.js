@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { idUserSelector, roleSelector } from '../../../../selectors'
 import { addCommentAsync } from '../../../../actions'
 import { useServerRequest } from '../../../../hooks'
+import { ROLE } from '../../../../const'
+import { checkAccess } from '../../../../utils'
 import styled from 'styled-components'
 
 const NewComment = styled.textarea`
@@ -20,6 +22,7 @@ const CommentsContainer = ({ className, comments, postId }) => {
   const [newComment, setNewComment] = useState('')
   const dispatch = useDispatch()
   const requestServer = useServerRequest()
+  const hasPermissionsReader = checkAccess([ROLE.ADMIN, ROLE.MODERATOR, ROLE.READER], role)
 
   const handlerChangeComment = ({ target }) => {
     setNewComment(target.value)
@@ -33,10 +36,12 @@ const CommentsContainer = ({ className, comments, postId }) => {
 
   return (
     <div className={className}>
-      <div className="container-textarea">
-        <NewComment name="comment" value={newComment} onChange={handlerChangeComment} placeholder="Комментарий..."></NewComment>
-        <Icon id="fa-paper-plane-o" margin="0 0 0 10px" size="18px" onClick={() => handlerAddComment()} />
-      </div>
+      {hasPermissionsReader && (
+        <div className="container-textarea">
+          <NewComment name="comment" value={newComment} onChange={handlerChangeComment} placeholder="Комментарий..."></NewComment>
+          <Icon id="fa-paper-plane-o" margin="0 0 0 10px" size="18px" onClick={() => handlerAddComment()} />
+        </div>
+      )}
       <div className="container-comments">
         {comments.map(({ id, publishedAt, content, author }) => (
           <Comment key={id} id={id} publishedAt={publishedAt} content={content} author={author} postId={postId} />
