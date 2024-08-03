@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom'
-import { Icon } from '../../../../components'
-import styled from 'styled-components'
+import { Link } from 'react-router-dom';
+import { Icon } from '../../../../components';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const Title = styled.div`
   text-align: left;
   font-size: 13px;
   padding: 5px;
   font-weight: bold;
-`
+`;
 
 const PostCardContainer = ({ className, id, title, publishedAt, commentsCount, imageUrl }) => {
   return (
@@ -29,8 +30,8 @@ const PostCardContainer = ({ className, id, title, publishedAt, commentsCount, i
         </div>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 export const PostCard = styled(PostCardContainer)`
   width: 280px;
@@ -57,4 +58,12 @@ export const PostCard = styled(PostCardContainer)`
   & .post-card-info div {
     display: flex;
   }
-`
+`;
+
+PostCard.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  publishedAt: PropTypes.string.isRequired,
+  commentsCount: PropTypes.number.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+};

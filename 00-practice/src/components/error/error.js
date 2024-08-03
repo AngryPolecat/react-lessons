@@ -1,3 +1,5 @@
+import { PROP_TYPES } from '../../const';
+
 export const Error = ({ error }) =>
   error && (
     <>
@@ -5,3 +7,7 @@ export const Error = ({ error }) =>
       <div>{error}</div>
     </>
   );
+
+Error.propTypes = {
+  error: PROP_TYPES.ERROR,
+};

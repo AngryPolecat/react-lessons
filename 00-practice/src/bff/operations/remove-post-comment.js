@@ -1,5 +1,6 @@
-import { getPost, getComments, getUsers, removeComment } from '../api';
+import { getPost, removeComment } from '../api';
 import { ROLE, ERROR } from '../const';
+import { getCommentsWithAuthor } from '../utils';
 import { sessions } from '../sessions';
 
 export const removePostComment = async (userSession, commentId, postId) => {
@@ -16,20 +17,13 @@ export const removePostComment = async (userSession, commentId, postId) => {
 
   const post = await getPost(postId);
 
-  const comments = await getComments(postId);
-
-  const users = await getUsers();
-
-  const commentsJoinAuthor = comments.map((comment) => {
-    const user = users.find(({ id }) => id === comment.authorId);
-    return {
-      ...comment,
-      author: user?.login,
-    };
-  });
+  const comments = await getCommentsWithAuthor(postId);
 
   return {
     error: null,
-    res: { ...post, comments: commentsJoinAuthor },
+    res: {
+      ...post,
+      comments,
+    },
   };
 };

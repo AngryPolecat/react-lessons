@@ -1,11 +1,12 @@
-import { Button } from '../../../../components'
-import styled from 'styled-components'
+import { Button } from '../../../../components';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const CurrentPage = styled.div`
   font-size: 20px;
   line-height: 40px;
   margin: 0 10px;
-`
+`;
 
 const PaginationContainer = ({ className, page, lastPage, setPage }) => {
   return (
@@ -28,8 +29,8 @@ const PaginationContainer = ({ className, page, lastPage, setPage }) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
 export const Pagination = styled(PaginationContainer)`
   display: flex;
@@ -39,4 +40,10 @@ export const Pagination = styled(PaginationContainer)`
   & button {
     margin: 5px 10px;
   }
-`
+`;
+
+Pagination.propTypes = {
+  page: PropTypes.number.isRequired,
+  lastPage: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
+};

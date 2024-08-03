@@ -1,38 +1,38 @@
-import { useState } from 'react'
-import { Icon } from '../../../../components'
-import { Comment } from './components'
-import { useDispatch, useSelector } from 'react-redux'
-import { idUserSelector, roleSelector } from '../../../../selectors'
-import { addCommentAsync } from '../../../../actions'
-import { useServerRequest } from '../../../../hooks'
-import { ROLE } from '../../../../const'
-import { checkAccess } from '../../../../utils'
-import styled from 'styled-components'
+import { useState } from 'react';
+import { Icon } from '../../../../components';
+import { Comment } from './components';
+import { useDispatch, useSelector } from 'react-redux';
+import { idUserSelector, roleSelector } from '../../../../selectors';
+import { addCommentAsync } from '../../../../actions';
+import { useServerRequest } from '../../../../hooks';
+import { ROLE, PROP_TYPES } from '../../../../const';
+import { checkAccess } from '../../../../utils';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const NewComment = styled.textarea`
   width: 100%;
   resize: none;
   height: 100px;
-`
+`;
 
 const CommentsContainer = ({ className, comments, postId }) => {
-  const userId = useSelector(idUserSelector)
-  /** деактивировать кнопку добавления комментарий если не залогинен */
-  const role = useSelector(roleSelector)
-  const [newComment, setNewComment] = useState('')
-  const dispatch = useDispatch()
-  const requestServer = useServerRequest()
-  const hasPermissionsReader = checkAccess([ROLE.ADMIN, ROLE.MODERATOR, ROLE.READER], role)
+  const userId = useSelector(idUserSelector);
+  const role = useSelector(roleSelector);
+  const [newComment, setNewComment] = useState('');
+  const dispatch = useDispatch();
+  const requestServer = useServerRequest();
+  const hasPermissionsReader = checkAccess([ROLE.ADMIN, ROLE.MODERATOR, ROLE.READER], role);
 
   const handlerChangeComment = ({ target }) => {
-    setNewComment(target.value)
-  }
+    setNewComment(target.value);
+  };
 
   const handlerAddComment = () => {
     /** комментарий добавляется даже после разлогирования, но только 1 раз */
-    dispatch(addCommentAsync(requestServer, userId, postId, newComment))
-    setNewComment('')
-  }
+    dispatch(addCommentAsync(requestServer, userId, postId, newComment));
+    setNewComment('');
+  };
 
   return (
     <div className={className}>
@@ -48,8 +48,8 @@ const CommentsContainer = ({ className, comments, postId }) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const Comments = styled(CommentsContainer)`
   & .container-textarea {
@@ -62,4 +62,9 @@ export const Comments = styled(CommentsContainer)`
   & .container-comments {
     margin-bottom: 140px;
   }
-`
+`;
+
+Comments.propTypes = {
+  comments: PropTypes.arrayOf(PROP_TYPES.COMMENT).isRequired,
+  postId: PropTypes.string.isRequired,
+};

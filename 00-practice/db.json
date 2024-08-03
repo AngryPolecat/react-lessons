@@ -196,6 +196,13 @@
       "published_at": "2047-10-03 18:53",
       "content": "И от меня новый комментарий",
       "id": "rn6IpJi"
+    },
+    {
+      "author_id": "001",
+      "post_id": "1",
+      "published_at": "2048-03-04 21:48",
+      "content": "Проверка после выноса в getCommentsWithAuthor",
+      "id": "3sWWzWx"
     }
   ]
 }
